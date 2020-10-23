@@ -1,11 +1,9 @@
-
 let permissions= {
     'getUsers': {
-
-        'all' : ['head-trainer'],
-        'read': ['trainee', 'trainer','head-trainer'],
-        'write': ['trainer','head-trainer'],
-        'delete': ['head-trainer'],
+        'all': ['head-trainer'],
+        'read': ['trainee', 'trainer'],
+        'write': ['trainer'],
+        'delete': [],
     }
 }
 
@@ -18,11 +16,19 @@ function hasPermission(moduleName,role,permissionType)
         if(permissions[moduleName][permissionType]!==undefined)
         {
             console.log("Permission Type ="+permissionType)
+            if(permissions[moduleName][permissionType]!=='all')
+            {
+                if(permissions[moduleName]['all'].indexOf(role)!==-1)
+                {
+                    console.log("Role ="+role)
+                    return true;
+                }
+            }
             if(permissions[moduleName][permissionType].length>0)
             {
                 if(permissions[moduleName][permissionType].indexOf(role)!==-1)
                 {
-                    console.log("Role ="+role)
+                    console.log("Role="+role)
                     return true;
                 }
                 else
@@ -33,13 +39,14 @@ function hasPermission(moduleName,role,permissionType)
             }
             else
             {
-                console.log("No role available for delete")
+                console.log("role not matched for delete="+role)
+                return false;
                
             }
         }
         else
         {
-            console.log("Permission Type not matched="+permissionType)
+            console.log("Permission Type not found="+permissionType)
             return false;
         }    
     }
@@ -50,11 +57,13 @@ function hasPermission(moduleName,role,permissionType)
     }
 }
 
+console.log(hasPermission('getUsers','head-trainer','write'))
+
 console.log(hasPermission(' gt','head-trainer','write'));
 
 console.log(hasPermission('getUsers','trainer','read'));
 
-console.log(hasPermission('getUsers','trainer','delete'));
+console.log(hasPermission('getUsers','head-trainer','delete'));
 
 console.log(hasPermission('getUsers','tr','delete'));
 
