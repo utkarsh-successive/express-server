@@ -7,64 +7,27 @@ let permissions= {
     }
 }
 
-function hasPermission(moduleName,role,permissionType)
-{
-   
-    if(permissions[moduleName]!== undefined)
+ function hasPermissions(moduleName, role, permissionType)
+ {
+    try
     {
-        console.log("Module Name ="+moduleName)
-        if(permissions[moduleName][permissionType]!==undefined)
-        {
-            console.log("Permission Type ="+permissionType)
-            if(permissions[moduleName][permissionType]!=='all')
-            {
-                if(permissions[moduleName]['all'].indexOf(role)!==-1)
-                {
-                    console.log("Role ="+role)
-                    return true;
-                }
-            }
-            if(permissions[moduleName][permissionType].length>0)
-            {
-                if(permissions[moduleName][permissionType].indexOf(role)!==-1)
-                {
-                    console.log("Role="+role)
-                    return true;
-                }
-                else
-                {
-                    console.log("Role not matched="+role)
-                    return false;
-                }
-            }
-            else
-            {
-                console.log("role not matched for delete="+role)
-                return false;
-               
-            }
+        console.log("//check permissions ... \n")
+        
+        if (permissions[moduleName].all.includes(role) || permissions[moduleName][permissionType].includes(role)){  
+                console.log(`${role} has ${permissionType} permissions`)                  
+                return true
         }
-        else
-        {
-            console.log("Permission Type not found="+permissionType)
-            return false;
-        }    
+        
+          console.log(`${role} does not has ${permissionType} permissions`)
+            return false         
+    } 
+    catch(err) {
+        console.log(`TypeError: ${moduleName} is not a valid moduleName`)
     }
-    else
-    {
-        console.log("Module Name is not found="+moduleName)
-        return false;
-    }
+   
 }
-
-console.log(hasPermission('getUsers','head-trainer','write'))
-
-console.log(hasPermission(' gt','head-trainer','write'));
-
-console.log(hasPermission('getUsers','trainer','read'));
-
-console.log(hasPermission('getUsers','head-trainer','delete'));
-
-console.log(hasPermission('getUsers','tr','delete'));
-
-console.log(hasPermission('getUsers','head-trainer','all'));
+  hasPermissions("getProdu", "manager", "all")
+ 
+ hasPermissions("getUsers", "trainer", "write")
+ hasPermissions("getUsers", "head-trainer", "delete")
+ hasPermissions("getUsers", "trainee", "all")
