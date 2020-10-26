@@ -1,60 +1,21 @@
-
-let permissions= {
-    'getUsers': {
-        'all': ['head-trainer'],
-        'read': ['trainee', 'trainer'],
-        'write': ['trainer'],
-        'delete': [],
-    }
-}
-
-function hasPermission(moduleName,role,permissionType)
-{
-   
-    if(permissions[moduleName]!== undefined)
-    {
-        console.log("Module Name found")
-        if(permissions[moduleName][permissionType]!==undefined)
-        {
-            console.log("Permission Type found")
-            if(permissions[moduleName][permissionType].length>0)
-            {
-                if(permissions[moduleName][permissionType].indexOf(role)!==-1)
-                {
-                    console.log("Role found")
-                    return true;
-                }
-                else
-                {
-                    console.log("Role not found")
-                    return false;
-                }
-            }
-            else
-            {
-                console.log("No role available for delete")
-                if(role==='')
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
+import {permissions} from '../constant'
+export  function hasPermissions(moduleName, role, permissionType) {
+    try{
+        console.log("//running permissions.js ... \n")
+        if (permissions[moduleName].all.includes(role) || permissions[moduleName][permissionType].includes(role)){  
+                console.log(`${role} has ${permissionType} permissions`)                  
+                return true
         }
-        else
-        {
-            console.log("Permission Type not found")
-            return false;
-        }    
+        
+          console.log(`${role} does not has ${permissionType} permissions`)
+            return false         
+    } 
+    catch(err) {
+        console.log(`TypeError: ${moduleName} is not a valid moduleName`)
     }
-    else
-    {
-        console.log("Module Name is not found")
-        return false;
-    }
-}
-
-console.log(hasPermission('getUsers','head-trainer','all'));
-console.log(hasPermission('getUsers','trainer','write'));
+   
+} //hasPermissions("getProdu", "manager", "all")
+ 
+ //hasPermissions("getUsers", "trainer", "write")
+// hasPermissions("getUsers", "head-trainer", "delete")
+// hasPermissions("getUsers", "trainee", "all")

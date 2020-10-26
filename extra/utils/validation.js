@@ -1,32 +1,12 @@
+import {validateEmail} from './helper'
 
-const users=[
-    {
-        traineeEmail: 'trainee1@successive.tech',
-        reviewerEmail: 'reviewer1@successive.tech',
-    },
-    {
-        traineeEmail: 'trainee2@successive.tech',
-        reviewerEmail: 'reviewer2@successive.tech',
-    },
-
-    {
-        traineeEmail: 'trainee3@successive.tech',
-        reviewerEmail: 'reviewer3@successive.t',
-    }
-]
-
-function validateEmail(email)
+export function validateUsers(users)
 {
-    const re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@successive.tech$/;
-    return re.test(email);
-}
-
-function validateUsers(users)
-{
+    console.log("User validation starts.......")
     let validUsers=0;
     let invalidUsers=0;
-    let userValid=[];
-    let userInvalid=[];
+    let userValid=[]
+    let userInvalid=[]
     for(let i=0;i<users.length;i++)
     {
         if(validateEmail(users[i].traineeEmail) && validateEmail(users[i].reviewerEmail))
@@ -51,5 +31,3 @@ function validateUsers(users)
       })
     console.log("invalid users are "+ invalidUsers)
 }
-
-validateUsers(users)
