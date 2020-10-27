@@ -14,8 +14,4 @@ export  function hasPermissions(moduleName, role, permissionType) {
         console.log(`TypeError: ${moduleName} is not a valid moduleName`)
     }
    
-} //hasPermissions("getProdu", "manager", "all")
- 
- //hasPermissions("getUsers", "trainer", "write")
-// hasPermissions("getUsers", "head-trainer", "delete")
-// hasPermissions("getUsers", "trainee", "all")
+} 
