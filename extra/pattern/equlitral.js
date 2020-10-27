@@ -1,5 +1,8 @@
-let arg=process.argv[2];
-for (let i = 1; i <= arg; i++) {
+//let arg=process.argv[2];
+export function equlitral(arg)
+{
+  for (let i = 1; i <= arg; i++) 
+  {
       let space="";
       let str="";
     for(let j=arg;j>i;j--)
@@ -13,5 +16,8 @@ for (let i = 1; i <= arg; i++) {
       
     space=space.concat(str);
     console.log(space);
-    
-}
+
+}  }
+  
+//equlitral(8); 
+

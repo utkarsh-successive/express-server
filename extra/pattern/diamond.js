@@ -1,9 +1,11 @@
-let arg=process.argv[2];
- arg=arg*2
- let num=arg/2
- let num2=1
-for (let i = 1; i <= arg; i++)
- {
+//let arg=process.argv[2];
+export function diamond(arg)
+{
+   arg=arg*2
+  let num=arg/2
+  let num2=1
+ for (let i = 1; i <= arg; i++)
+  {
       let space=""
       let str=""
       for(let j=1;j<=num;j++)
@@ -20,15 +22,18 @@ for (let i = 1; i <= arg; i++)
       }
       else if(i>(arg/2))
       {
-      	num=num+1
-      	num2=num2-1
+         num=num+1
+         num2=num2-1
 
       }
       else 
       {
-      	num=num-1
-      	num2=num2+1
+         num=num-1
+         num2=num2+1
       }
        space=space.concat(str)
     console.log(space)
+}  
 }
+// diamond(5)
+ 
