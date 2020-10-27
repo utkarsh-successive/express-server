@@ -14,3 +14,4 @@ export  function hasPermissions(moduleName, role, permissionType) {
     }
 }
    
+
