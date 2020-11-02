@@ -8,7 +8,7 @@ class TraineeController {
          TraineeController.instance = new TraineeController();
          return TraineeController.instance;
     }
-    get (req, res, next ) {
+    get (req : REQUEST, res : RESOURCE, next : NEXTFUNCTION ) {
         try {
             console.log('inside get method of trainee controller');
             res.send({
@@ -25,7 +25,7 @@ class TraineeController {
         }
 
     }
-    update (req, res, next ) {
+    update (req : REQUEST, res : RESOURCE, next : NEXTFUNCTION ) {
         try {
             console.log('inside update method of trainee controller');
             res.send({
@@ -42,7 +42,7 @@ class TraineeController {
         }
 
     }
-    create (req, res, next ) {
+    create (req : REQUEST, res : RESOURCE, next : NEXTFUNCTION ) {
         try {
             console.log('inside create method of trainee controller');
             res.send({
@@ -59,7 +59,7 @@ class TraineeController {
         }
 
     }
-    delete (req, res, next ) {
+    delete (req : REQUEST, res : RESOURCE, next : NEXTFUNCTION ) {
         try {
             console.log('inside delete method of trainee controller');
             res.send({
