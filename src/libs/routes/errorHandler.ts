@@ -8,7 +8,7 @@ export default(err: IError, req: Request, res: Response, next: NextFunction) => 
         {
             error: err.error,
             message: err.message || 'error',
-            status: err.code || '500'
+            status: err.code || '500',
             timestamp: new Date()
         }
     );
