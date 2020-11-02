@@ -8,8 +8,8 @@ export default(err: IError, req: Request, res: Response, next: NextFunction) => 
     res.status (err.code).json(
         {
             error: err.error,
-            message: err.message || 'file not found',
-            status: err.code,
+            message: err.message || 'error',
+            status: err.code || '500'
             timestamp: new Date()
         }
     );
