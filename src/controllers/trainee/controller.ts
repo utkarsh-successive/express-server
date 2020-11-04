@@ -13,7 +13,7 @@ class TraineeController {
             console.log('inside get method of trainee controller');
             res.send({
                 message: 'Trainee fetched successfully',
-                date: [
+                data: [
                     {
                     name: 'Trainee1',
                     address: 'noida'
@@ -30,7 +30,7 @@ class TraineeController {
             console.log('inside update method of trainee controller');
             res.send({
                 message: ' Trainee update successfully ' ,
-                date: [
+                data: [
                     {
                     name: 'Trainee1',
                     address: ' noida'
@@ -47,7 +47,7 @@ class TraineeController {
             console.log('inside create method of trainee controller');
             res.send({
                 message: ' Trainee created successfully ',
-                date: [
+                data: [
                     {
                     name: 'Trainee1',
                     address: 'noida'
@@ -64,7 +64,7 @@ class TraineeController {
             console.log('inside delete method of trainee controller');
             res.send({
                 message: 'Trainee deleted successfully',
-                date: [
+                data: [
                     {
                     name: 'Trainee1',
                     address: 'noida'
