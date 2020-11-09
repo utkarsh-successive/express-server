@@ -18,10 +18,17 @@ export default (config) => (req: Request,res: Response,next: NextFunction) => {
         if ((!keys.required) && !(request)) {
             return request = keys.default;
         }
-        if (
-            (((keys.number) && !(Number.isInteger(Number(request)))) ||
-            ((keys.string) && !(typeof request === 'string')))
-        ) {
+        if  ((keys.number) && !(isNaN(Number(request))))
+           {
+            const err = {
+                key: `${key}`,
+                location: `${keys.in}`,
+                errorMessage: `${keys.errorMessage || 'incorrect Type'}`
+                };
+            errors.push(err);
+        }
+        if((keys.string) && !(typeof request === 'string'))
+        {
             const err = {
                 key: `${key}`,
                 location: `${keys.in}`,
@@ -45,6 +52,7 @@ export default (config) => (req: Request,res: Response,next: NextFunction) => {
                 };
             errors.push(err);
         }
+
     });
     if (errors.length !== 0) {
         return res.status(400).send(errors);
