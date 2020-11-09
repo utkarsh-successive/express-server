@@ -4,10 +4,10 @@ export default (config) => (req: Request,res: Response,next: NextFunction) => {
     Object.keys(config).forEach((key) => {
         const i = 0;
         const keys = config[key];
-        const locations = keys.in[i];
+        const locations = keys.in[i]; 
         let request = req[locations][key];
         const regex = keys.regex;
-        if ((keys.required) && !(request)) {
+         if ((keys.required) && (request.custom)) {
             const err = {
                 key: `${key}`,
                 location: `${keys.in}`,
@@ -15,7 +15,7 @@ export default (config) => (req: Request,res: Response,next: NextFunction) => {
                 };
             errors.push(err);
         }
-        if ((!keys.required) && !(request)) {
+        if ((!keys.required) && (request.custom)) {
             return request = keys.default;
         }
         if  ((keys.number) && !(isNaN(Number(request))))
@@ -52,6 +52,10 @@ export default (config) => (req: Request,res: Response,next: NextFunction) => {
                 };
             errors.push(err);
         }
+        if (request.custom && typeof request.custom === 'function') {
+            request.custom(locations);
+        }
+    
 
     });
     if (errors.length !== 0) {
@@ -59,3 +63,8 @@ export default (config) => (req: Request,res: Response,next: NextFunction) => {
     }
     next();
 };
+
+function isNull( request) {
+    const a = ( request === undefined || request === null || request === '' );
+    return a;
+}
