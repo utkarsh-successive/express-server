@@ -8,7 +8,7 @@ export default (module , permissionType) =>(req , res, next) => {
         const token = req.header('authorization');
         const decode = jwt.verify(token, 'qwertyuiopasdfghjklzxcvbnm123456');
         console.log('decoded user', decode);
-        console.log('authozied', hasPermission(module, permissionType, decode.Role));
+        console.log('authorized', hasPermission(module, permissionType, decode.role));
         next();
 
     }

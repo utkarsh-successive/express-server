@@ -8,7 +8,7 @@ const permissions = {
 };
 
 
- export default function hasPermissio(moduleName, permissionType, role): boolean {
+ export default function hasPermission(moduleName, permissionType, role): boolean {
     console.log('Permissions module is started and verify the permissions');
     let type;
     const { all, read, write, Delete } = moduleName;
