@@ -7,7 +7,7 @@ export default (config) => (req: Request,res: Response,next: NextFunction) => {
         const locations = keys.in[i]; 
         let request = req[locations][key];
         const regex = keys.regex;
-         if ((keys.required) && (request.custom)) {
+         if ((keys.required) && !(request.custom)) {
             const err = {
                 key: `${key}`,
                 location: `${keys.in}`,
@@ -15,7 +15,7 @@ export default (config) => (req: Request,res: Response,next: NextFunction) => {
                 };
             errors.push(err);
         }
-        if ((!keys.required) && (request.custom)) {
+        if ((!keys.required) && !(request)) {
             return request = keys.default;
         }
         if  ((keys.number) && !(isNaN(Number(request))))
