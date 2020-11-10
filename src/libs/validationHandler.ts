@@ -48,7 +48,7 @@ export default (config) => (req: Request,res: Response,next: NextFunction) => {
             errors.push(err);
         }
         if (keys.custom && typeof keys.custom === 'function') {
-            keys.custom(location);
+            keys.custom(request);
         }
     
 
