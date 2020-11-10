@@ -4,18 +4,13 @@ export default (config) => (req: Request,res: Response,next: NextFunction) => {
     Object.keys(config).forEach((key) => {
         const i = 0;
         const keys = config[key];
-        const locations = keys.in[i]; 
-        let request = req[locations][key];
+        const values=keys.in.map(location => {
+            return req[location][key]
+        });
+         
+        let request = values.find(val=>{return isNull(val)})
         const regex = keys.regex;
-         if ((keys.required) && !(request.custom)) {
-            const err = {
-                key: `${key}`,
-                location: `${keys.in}`,
-                errorMessage: `${keys.errorMessage || 'required'}`
-                };
-            errors.push(err);
-        }
-        if ((!keys.required) && !(request)) {
+        if ((!keys.required) && !(isNull (request))) {
             return request = keys.default;
         }
         if  ((keys.number) && !(isNaN(Number(request))))
@@ -53,7 +48,7 @@ export default (config) => (req: Request,res: Response,next: NextFunction) => {
             errors.push(err);
         }
         if (request.custom && typeof request.custom === 'function') {
-            request.custom(locations);
+            request.custom(location);
         }
     
 
