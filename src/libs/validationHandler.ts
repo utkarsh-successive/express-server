@@ -13,7 +13,7 @@ export default (config) => (req: Request,res: Response,next: NextFunction) => {
         if ((!keys.required) && !(isNull (request))) {
             return request = keys.default;
         }
-        if  ((keys.number) && !(isNaN(Number(request))))
+        if  ((keys.number) && (isNaN(Number(request))))
            {
             const err = {
                 key: `${key}`,
@@ -47,8 +47,8 @@ export default (config) => (req: Request,res: Response,next: NextFunction) => {
                 };
             errors.push(err);
         }
-        if (request.custom && typeof request.custom === 'function') {
-            request.custom(location);
+        if (keys.custom && typeof keys.custom === 'function') {
+            keys.custom(location);
         }
     
 
