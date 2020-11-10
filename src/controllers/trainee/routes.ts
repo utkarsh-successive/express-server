@@ -10,18 +10,11 @@ console.log(authmiddleware);
 
 const traineeRouter = Router();
 
-/*traineeRouter.route('/')
+traineeRouter.route('/')
 .get(authmiddleware('getUser','read'), validationHandler ( config ) , traineeControler.get)
 .post(authmiddleware('getUser','read'),validationHandler ( config) , traineeControler.create)
 .put(authmiddleware('getUser','read'),validationHandler ( config) ,  traineeControler.update)
 .delete(authmiddleware('getUser','read'),validationHandler ( config) ,traineeControler.delete)
-console.log(config);
-const traineeRouter = Router();
-*/
-traineeRouter.route('/')
-.get( validationHandler ( config ) , traineeControler.get)
-.post(validationHandler ( config) , traineeControler.create)
-.put(validationHandler ( config) ,  traineeControler.update)
-.delete(validationHandler ( config) ,traineeControler.delete)
+
 
 export default traineeRouter;

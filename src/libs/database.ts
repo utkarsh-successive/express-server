@@ -1,4 +1,5 @@
 import * as mongooose from 'mongoose';
+import seedData from './seedData';
 
 export default class Database {
     static open(connectionString) {
@@ -10,13 +11,14 @@ export default class Database {
                     reject(err);
                     return;
                 }
+                seedData();
                 resolve(undefined);
             });
         });
     }
 
     static close(connectionString, callback) {
-       console.log('Inside close method');
+        console.log('Inside close method');
         mongooose.connection.close(connectionString, (err) => {
             if (err) {
                 console.log('error occured inside close function', err);
