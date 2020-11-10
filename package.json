@@ -42,7 +42,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tomer0702/express-server.git"
+    "url": "https://github.com/tomer0702/express-server.git"
   },
   "author": "",
   "license": "ISC",
