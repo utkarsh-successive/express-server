@@ -10,7 +10,7 @@ export default (config) => (req: Request,res: Response,next: NextFunction) => {
          
         let request = values.find(val=>{return isNull(val)})
         const regex = keys.regex;
-        if ((!keys.required) && !(isNull (request))) {
+        if ((!keys.required) && (isNull (request))) {
             return request = keys.default;
         }
         if  ((keys.number) && (isNaN(Number(request))))
