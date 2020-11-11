@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import config from '../../config/configuration'
 import * as jwt from 'jsonwebtoken';
-import hasPermission from '../permission' ;
+import hasPermissions from '../permission' ;
 
 
 export default (module: string , permissionType:string) =>(req:Request, res:Response, next:NextFunction) => {
@@ -11,12 +11,14 @@ export default (module: string , permissionType:string) =>(req:Request, res:Resp
         const token = req.header('authorization');
         const decode = jwt.verify(token, config.Secret_Key );
         console.log('decoded user', decode);
-         const result =  hasPermission(module, permissionType, decode.role);
+         const result =  hasPermissions(module, permissionType, decode.role);
+         console.log(decode.role);
+
          console.log('result is', result);
         if (result === true)
          {
-           return true;
-           next();
+           
+           return next();
          }
             
         else {

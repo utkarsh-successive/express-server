@@ -1,36 +1,27 @@
 const permissions = {
-    'getUsers': {
+    'getUser': {
         all: ['head-trainer'],
         read: ['trainee', 'trainer'],
         write: ['trainer'],
         delete: [],
     }
 };
-
-
-export default function hasPermission(moduleName, role, permissionType) {
-
-    let type;
-    console.log('Module Name is', moduleName);
-    console.log('permission type is', permissionType);
-  //  console.log('role is', role);
-
-    const values = ['all', 'read', 'write', 'Delete'];
-
-    function getType(permissiontype) {
-        if (values.includes(permissiontype)) { type = permissiontype; }
-        return type;
-    }
-    type = getType(permissionType);
-
-    if (role === 'head-trainer') {
-
-        return true;
-    }
-    else {
-        if (type.includes(role))
-            return true;
-        else
+export default  function hasPermissions(moduleName: string,  permissionType: string,role: string): boolean {
+    try {
+        console.log('//running permissions.ts ... \n');
+        console.log(moduleName);
+        console.log(role);
+        console.log(permissionType);
+        if (permissions[moduleName].all.includes(role) || permissions[moduleName][permissionType].includes(role)) {
+            console.log('${role} has ${permissionType} permissions');
+                return true;
+        }
+       console.log('${role} does not has ${permissionType} permissions');
             return false;
+    }
+    catch (err) {
+          console.log(err);
+        console.log('TypeError: ${moduleName} is not a valid moduleName');
+                    return false;
     }
 }
