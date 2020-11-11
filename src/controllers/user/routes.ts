@@ -5,6 +5,7 @@ import validationHandler from '../../libs/validationHandler';
  
 import config from '../trainee/validation';
 import authmiddleware from '../../libs/routes/authmiddleware';
+import database from '../../libs/database'
 console.log(config);
 console.log(authmiddleware);
 
