@@ -4,7 +4,7 @@ import * as jwt from 'jsonwebtoken';
 import hasPermissions from '../permission' ;
 
 
-export default (module: string , permissionType:string) =>(req:Request, res:Response, next:NextFunction) => {
+export default (module: string ,permissionType:string) =>(req:Request, res:Response, next:NextFunction) => {
     try {
         console.log('module and permission is ', module , permissionType);
         console.log('header', req.header('authorization'));
