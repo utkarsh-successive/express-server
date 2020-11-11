@@ -13,7 +13,7 @@ export default function hasPermission(moduleName, role, permissionType) {
     let type;
     console.log('Module Name is', moduleName);
     console.log('permission type is', permissionType);
-    console.log('role is', role);
+  //  console.log('role is', role);
 
     const values = ['all', 'read', 'write', 'Delete'];
 
@@ -24,7 +24,7 @@ export default function hasPermission(moduleName, role, permissionType) {
     type = getType(permissionType);
 
     if (role === 'head-trainer') {
-        console.log('role is matched')
+
         return true;
     }
     else {

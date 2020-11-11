@@ -1,7 +1,7 @@
 import{ Router } from 'express';
 import traineeControler from './controller';
 import validationHandler from '../../libs/validationHandler';
- import config from '../trainee/validation';
+import config from './validation';
 import authmiddleware from '../../libs/routes/authmiddleware';
 console.log(config);
 console.log(authmiddleware);

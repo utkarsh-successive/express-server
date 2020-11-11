@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 import config from '../../config/configuration'
-//import { NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
 import hasPermission from '../permission' ;
 
