@@ -8,22 +8,29 @@ const permissions = {
 };
 
 
- export default function hasPermission(moduleName, permissionType, role): boolean {
-    console.log('Permissions module is started and verify the permissions');
+export default function hasPermission(moduleName, role, permissionType) {
+
     let type;
-    const { all, read, write, Delete } = moduleName;
-    if (permissionType === 'all')
-        type = all;
-    if (permissionType === 'read')
-        type = read;
-    if (permissionType === 'write')
-        type = write;
-    if (permissionType === 'Delete')
-        type = Delete;
-    if (role === 'head-trainer') { return true; }
+    console.log('Module Name is', moduleName);
+    console.log('permission type is', permissionType);
+    console.log('role is', role);
+
+    const values = ['all', 'read', 'write', 'Delete'];
+
+    function getType(permissiontype) {
+        if (values.includes(permissiontype)) { type = permissiontype; }
+        return type;
+    }
+    type = getType(permissionType);
+
+    if (role === 'head-trainer') {
+        console.log('role is matched')
+        return true;
+    }
     else {
-        if (permissions[moduleName][permissionType].includes(role))
+        if (type.includes(role))
             return true;
-        else return false;
+        else
+            return false;
     }
 }
