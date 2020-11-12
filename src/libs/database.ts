@@ -1,6 +1,7 @@
 import * as mongooose from 'mongoose';
 import seedData from './seedData';
 
+
 export default class Database {
     static open(connectionString) {
         return new Promise((resolve, reject) => {
@@ -17,9 +18,9 @@ export default class Database {
         });
     }
 
-    static close(connectionString, callback) {
-        console.log('Inside close method');
-        mongooose.connection.close(connectionString, (err) => {
+  static close(connectionString, callback) {
+    console.log('Inside close method');
+     mongooose.connection.close(connectionString, (err) => {
             if (err) {
                 console.log('error occured inside close function', err);
                 callback(err);
