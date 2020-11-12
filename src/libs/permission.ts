@@ -6,6 +6,7 @@ const permissions = {
         delete: [],
     }
 };
+
 export default  function hasPermissions(moduleName: string,permissionType: string,role: string): boolean {
     try {
         console.log('//running permissions.ts ... \n');

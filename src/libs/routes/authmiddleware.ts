@@ -2,8 +2,6 @@ import * as jwt from 'jsonwebtoken';
 import hasPermission from '../permission' 
 import { Request, Response, NextFunction } from 'express';
 import config from '../../config/configuration'
-import * as jwt from 'jsonwebtoken';
-import hasPermissions from '../permission' ;
 export default (module: string ,permissionType:string) =>(req:Request, res:Response, next:NextFunction) => {
     try {
         console.log('module and permission is ', module , permissionType);
@@ -13,7 +11,6 @@ export default (module: string ,permissionType:string) =>(req:Request, res:Respo
         console.log('decoded user', decode);
          const result =  hasPermissions(module, permissionType, decode.role);
          console.log(decode.role);
-
          console.log('result is', result);
         if (result === true)
          {
