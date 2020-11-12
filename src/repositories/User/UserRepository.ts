@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 import { userModel } from './UserModel';
-import IUserMOdel from './IUserModel';
+import IUserModel from './IUserModel';
 
 export default class UserRepository {
     public static generateObjectId() {
