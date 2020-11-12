@@ -43,13 +43,13 @@ class Server {
             .catch((err) => console.log(err));
 
 
-        // Databse.close(MONGO_URL, (err) => {
-        //     if (err) {
-        //         console.log('error occured', err);
-        //         return;
-        //     }
-        //     console.log('Succesfully disconnect with MongoDB');
-        // });
+         Databse.close(MONGO_URL, (err) => {
+             if (err) {
+                 console.log('error occured', err);
+                 return;
+             }
+             console.log('Succesfully disconnect with MongoDB');
+         });
 
        
         return this;
