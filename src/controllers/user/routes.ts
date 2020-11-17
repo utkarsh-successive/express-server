@@ -5,8 +5,9 @@ import validationHandler from '../../libs/validationHandler';
  
 import config from '../trainee/validation';
 import authmiddleware from '../../libs/routes/authmiddleware';
-import database from '../../libs/database'
-console.log(config);
+import database from '../../libs/database';
+import validation from './Validation';
+//console.log(config);
 console.log(authmiddleware);
 
 const userRouter = Router();
@@ -17,5 +18,9 @@ userRouter.route('/')
 .put(authmiddleware('getUser','read'),validationHandler ( config) ,  userControler.update)
 .delete(authmiddleware('getUser','read'),validationHandler ( config) ,userControler.delete)
 
+userRouter.route('/login')
+    .post(validationHandler(validation.login), userControler.login);
 
+userRouter.route('/me')
+    .get(authmiddleware('getUser', 'read'), userControler.me);
 export default userRouter;

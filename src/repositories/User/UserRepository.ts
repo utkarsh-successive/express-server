@@ -11,11 +11,11 @@ export default class UserRepository {
         return userModel.find(query, projection, options);
     }
 
-    public findOne(query): mongoose.DocumentQuery<IUserMOdel, IUserMOdel, {}> {
+    public findOne(query): mongoose.DocumentQuery<IUserModel, IUserModel, {}> {
         return userModel.findOne(query).lean();
     }
 
-    public create(data: any): Promise<IUserMOdel> {
+    public create(data: any): Promise<IUserModel> {
         console.log('UserRepository:: create', data);
         const id = UserRepository.generateObjectId();
         const model = new userModel ({

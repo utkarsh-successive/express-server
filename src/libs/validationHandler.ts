@@ -8,7 +8,7 @@ export default (config) => (req: Request,res: Response,next: NextFunction) => {
             return req[location][key]
         });
          
-        let request = values.find(val=>{return isNull(val)})
+        let request = values.find(val=> {return !isNull(val)})
         const regex = keys.regex;
         if ((!keys.required) && (isNull (request))) {
             return request = keys.default;
@@ -18,16 +18,17 @@ export default (config) => (req: Request,res: Response,next: NextFunction) => {
             const err = {
                 key: `${key}`,
                 location: `${keys.in}`,
-                errorMessage: `${keys.errorMessage || 'incorrect Type'}`
+                errorMessage: `${keys.errorMessage || 'should be number'}`
                 };
             errors.push(err);
         }
         if((keys.string) && !(typeof request === 'string'))
         {
+            console.log("abcf",request,typeof request);
             const err = {
                 key: `${key}`,
                 location: `${keys.in}`,
-                errorMessage: `${keys.errorMessage || 'incorrect Type'}`
+                errorMessage: `${keys.errorMessage || 'should be string'}`
                 };
             errors.push(err);
         }
