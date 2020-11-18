@@ -5,9 +5,7 @@ import validationHandler from '../../libs/validationHandler';
  
 import config from '../trainee/validation';
 import authmiddleware from '../../libs/routes/authmiddleware';
-import database from '../../libs/database';
 import validation from './Validation';
-//console.log(config);
 console.log(authmiddleware);
 
 const userRouter = Router();
