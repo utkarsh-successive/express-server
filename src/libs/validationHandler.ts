@@ -1,20 +1,18 @@
 import { Request, Response, NextFunction } from 'express';
-export default (config) => (req: Request,res: Response,next: NextFunction) => {
+export default (config) => (req: Request, res: Response, next: NextFunction) => {
     const errors = [];
     Object.keys(config).forEach((key) => {
         const i = 0;
         const keys = config[key];
-        const values=keys.in.map(location => {
-            return req[location][key]
+        const values = keys.in.map(location => {
+            return req[location][key];
         });
-         
-        let request = values.find(val=> {return !isNull(val)})
+         let request = values.find(val => {return !isNull(val) } )
         const regex = keys.regex;
         if ((!keys.required) && (isNull (request))) {
             return request = keys.default;
         }
-        if  ((keys.number) && (isNaN(Number(request))))
-           {
+        if  ((keys.number) && (isNaN(Number(request)))) {
             const err = {
                 key: `${key}`,
                 location: `${keys.in}`,
@@ -22,10 +20,8 @@ export default (config) => (req: Request,res: Response,next: NextFunction) => {
                 };
             errors.push(err);
         }
-        if((keys.string) && !(typeof request === 'string'))
-        {
-            console.log("abcf",request,typeof request);
-            const err = {
+        if ((keys.string) && !(typeof request === 'string')) {
+                const err = {
                 key: `${key}`,
                 location: `${keys.in}`,
                 errorMessage: `${keys.errorMessage || 'should be string'}`
@@ -51,8 +47,6 @@ export default (config) => (req: Request,res: Response,next: NextFunction) => {
         if (keys.custom && typeof keys.custom === 'function') {
             keys.custom(request);
         }
-    
-
     });
     if (errors.length !== 0) {
         return res.status(400).send(errors);
