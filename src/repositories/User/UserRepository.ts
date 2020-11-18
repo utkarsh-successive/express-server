@@ -1,8 +1,12 @@
 import * as mongoose from 'mongoose';
 import { userModel } from './UserModel';
 import IUserModel from './IUserModel';
+import VersionableRepository from '../versionable/VersionableRepository';
 
-export default class UserRepository {
+export default class UserRepository extends VersionableRepository<IUserModel, mongoose.Model<IUserModel>> {
+    constructor() {
+        super(userModel);
+    }
     public static generateObjectId() {
         return String(mongoose.Types.ObjectId());
     }
@@ -20,6 +24,7 @@ export default class UserRepository {
         const id = UserRepository.generateObjectId();
         const model = new userModel ({
             _id: id,
+            originalId: id,
             ...data,
         });
         return model.save();
@@ -29,8 +34,8 @@ export default class UserRepository {
         return userModel.countDocuments();
     }
 
-    // public update(data: any): Promise<IUserMOdel> {
-    //     console.log('UserRepository:: update', data);
-    //     return userModel.update(data);
-    // }
+    public update(data: any): Promise<IUserModel> {
+        console.log('UserRepository:: update', data);
+        return super.update(data);
+    }
 }

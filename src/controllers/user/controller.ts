@@ -2,9 +2,9 @@ import { Request, Response, NextFunction } from 'express';
 import { userModel } from '../../repositories/User/UserModel';
 import * as jwt from 'jsonwebtoken';
 import IRequest from '../../IRequest';
-import config from '../../config/configuration'
+import config from '../../config/configuration';
 
-class userController {
+class  userController {
     static instance: userController;
 
     static getInstance() {
@@ -14,7 +14,7 @@ class userController {
          userController.instance = new userController();
          return userController.instance;
     }
-    get (req : Request, res : Response, next : NextFunction ) {
+    get (req: Request, res: Response, next: NextFunction ) {
         try {
             console.log('inside get method of trainee controller');
             res.send({
@@ -31,7 +31,7 @@ class userController {
         }
 
     }
-    update (req : Request, res : Response, next : NextFunction ) {
+    update (req: Request, res: Response, next: NextFunction ) {
         try {
             console.log('inside update method of trainee controller');
             res.send({
@@ -48,7 +48,7 @@ class userController {
         }
 
     }
-    create (req : Request, res : Response, next : NextFunction ) {
+    create (req: Request, res: Response, next: NextFunction ) {
         try {
             console.log('inside create method of trainee controller');
             res.send({
@@ -65,7 +65,7 @@ class userController {
         }
 
     }
-    delete (req : Request, res : Response, next : NextFunction ) {
+    delete (req: Request, res: Response, next: NextFunction ) {
         try {
             console.log('inside delete method of trainee controller');
             res.send({
@@ -85,13 +85,12 @@ class userController {
     login( req: Request, res: Response, next: NextFunction) {
         try {
             const { email, password } = req.body;
-            console.log(email,password);
+            console.log(email, password);
 
-            userModel.findOne({email: email}).lean().then((result) => {
+            userModel.findOne({ 'email': email} ).lean().then((result) => {
                 if (result) {
                     if ((email === result.email) && (password === result.password)) {
                         console.log('result is', result.password, result.name);
-                       // console.log(result,config.Secret_Key);
                         const token = jwt.sign({
                             ...result
                         }, config.Secret_Key);
@@ -124,7 +123,7 @@ class userController {
         }
     }
 
-    me(req: IRequest, res: Response, next: NextFunction) {
+    me (req: IRequest, res: Response, next: NextFunction) {
         console.log('user' , req.user);
         const user = req.user;
         res.json({
