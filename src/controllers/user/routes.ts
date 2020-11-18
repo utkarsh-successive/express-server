@@ -6,6 +6,7 @@ import authmiddleware from '../../libs/routes/authmiddleware';
 console.log(authmiddleware);
 const userRouter = Router();
 userRouter.route('/')
+
 .get(authmiddleware('getUser', 'read'), validationHandler ( config.get ) , userControler.get)
 .post(authmiddleware('getUser', 'read'), validationHandler ( config.create) , userControler.create)
 .put(authmiddleware('getUser', 'read'), validationHandler ( config.update) ,  userControler.update)
