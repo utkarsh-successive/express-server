@@ -1,33 +1,42 @@
 import * as jwt from 'jsonwebtoken';
-import hasPermission from '../permission' 
-import { Request, Response, NextFunction } from 'express';
-import config from '../../config/configuration'
-export default (module: string ,permissionType:string) =>(req:Request, res:Response, next:NextFunction) => {
+import hasPermission from '../permission';
+import { userModel } from '../../repositories/User/UserModel';
+import config from '../../config/configuration';
+
+export default (module, permissionType) => (req, res, next) => {
     try {
-        console.log('module and permission is ', module , permissionType);
+        console.log('Module and permission is', module, permissionType);
         console.log('header', req.header('authorization'));
         const token = req.header('authorization');
-        const decode = jwt.verify(token, config.Secret_Key );
+        const decode = jwt.verify(token, config.Secret_Key);
         console.log('decoded user', decode);
-         const result =  hasPermissions(module, permissionType, decode.role);
-         console.log(decode.role);
-         console.log('result is', result);
-        if (result === true)
-         {
-           
-           return next();
-         }
-            
-        else {
-            next({
-                message: 'Unauthorised',
-                status: 403
-            });
-        }
-    }
-    catch (err) {
+        console.log('email nad password', decode.email, decode.password, decode.role);
+        userModel.findOne({ email: decode.email }, (err, result) => {
+            if (!result) {
+                return next({
+                    error: 'User not existing in db',
+                    code: 403
+                });
+            }
+            console.log('result is',  result.name);
+            console.log(result);
+            req.user = decode;
+            res.locals.user = decode;
+            console.log('User in request', decode);
+            if (!hasPermission(module, permissionType, decode.role)) {
+                console.log('database data', result.password, result.email, decode.email, decode.password);
+                return next({
+                    error: 'Unauthorized User role',
+                    code: 403
+              });
+            }
+            return next();
+      });
+     }
+     catch (err) {
         next({
-            message: err
+            error: 'Unauthorized',
+            code: 403
         });
     }
 };
