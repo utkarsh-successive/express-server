@@ -8,7 +8,6 @@ import validation from './Validation';
 import { permissions } from '../../libs/constants';
 console.log(authmiddleware);
 const userRouter = Router();
-
 userRouter.route('/')
 .get(authmiddleware('getUser', 'read'), validationHandler ( config.get ) , userControler.get)
 .post(authmiddleware('getUser', 'read'), validationHandler ( config.create) , userControler.create)
@@ -16,7 +15,7 @@ userRouter.route('/')
 userRouter.route('/:id').delete(authmiddleware('getUser', 'read'), validationHandler ( config.delete) , userControler.delete);
 
 userRouter.route('/login')
-    .post(validationHandler(validation.login), userControler.login);
+    .post(validationHandler(config.login), userControler.login);
 
 userRouter.route('/me')
     .get(authmiddleware('getUser', 'read'), userControler.me);

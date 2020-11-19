@@ -11,14 +11,14 @@ export default (module, permissionType) => (req, res, next) => {
         const decode = jwt.verify(token, config.Secret_Key);
         console.log('decoded user', decode);
         console.log('email nad password', decode.email, decode.password, decode.role);
-        userModel.findOne({ email: decode.email, password: decode.password }, (err, result) => {
+        userModel.findOne({ email: decode.email }, (err, result) => {
             if (!result) {
                 return next({
                     error: 'User not existing in db',
                     code: 403
                 });
             }
-            console.log('result is', result.password, result.name);
+            console.log('result is',  result.name);
             console.log(result);
             req.user = decode;
             res.locals.user = decode;
@@ -28,11 +28,11 @@ export default (module, permissionType) => (req, res, next) => {
                 return next({
                     error: 'Unauthorized User role',
                     code: 403
-                });
+              });
             }
             return next();
       });
-    }
+     }
      catch (err) {
         next({
             error: 'Unauthorized',
