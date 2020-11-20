@@ -10,10 +10,9 @@ class Server {
          this.app = express();
     }
     bootstrap() {
-        this.initBodyParser(); 
+        this.initBodyParser();
         this.setupRoutes();
-    
-    return this;
+            return this;
     }
     public setupRoutes() {
          const { app } = this;
@@ -23,9 +22,7 @@ class Server {
         app.use('/api', mainRouter);
         app.use(notFoundHandler);
        // app.use(errorHandler);
-        
-
-         return this;
+          return this;
     }
     public initBodyParser() {
         this.app.use(express.json());
@@ -51,8 +48,6 @@ class Server {
         //      }
         //      console.log('Succesfully disconnect with MongoDB');
         //  });
-
-       
         return this;
       /*  const { app, config: { PORT } } = this;
         app.listen(PORT , ( err )  => {

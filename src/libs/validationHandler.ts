@@ -7,7 +7,8 @@ export default (config) => (req: Request, res: Response, next: NextFunction) => 
         const values = keys.in.map(location => {
             return req[location][key];
         });
-         let request = values.find(val => {return !isNull(val) } )
+         let request = values.find(val => {return !isNull(val); } );
+
         const regex = keys.regex;
         if ((!keys.required) && (isNull (request))) {
             return request = keys.default;

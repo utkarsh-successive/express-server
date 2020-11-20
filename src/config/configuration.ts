@@ -4,9 +4,3 @@ const enVars = dotenv.config().parsed;
 const config = enVars;
 Object.freeze(config);
 export default config;
-
-
-
-
-
-
