@@ -1,7 +1,7 @@
 import{ Router } from 'express';
 import userControler from './controller';
 import validationHandler from '../../libs/validationHandler';
- import config from '../trainee/validation';
+ import config from './Validation';
 import authmiddleware from '../../libs/routes/authmiddleware';
 import database from '../../libs/database';
 import validation from './Validation';
