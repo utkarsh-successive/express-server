@@ -2,7 +2,6 @@ import * as jwt from 'jsonwebtoken';
 import hasPermission from '../permission';
 import { userModel } from '../../repositories/User/UserModel';
 import config from '../../config/configuration';
-
 export default (module, permissionType) => (req, res, next) => {
     try {
         console.log('Module and permission is', module, permissionType);
@@ -22,8 +21,8 @@ export default (module, permissionType) => (req, res, next) => {
             console.log(result);
             req.user = decode;
             res.locals.user = decode;
-            console.log('User in request', decode);
-            if (hasPermission(module, permissionType, decode.role)) {
+            console.log('User in request', decode, module, permissionType);
+            if (!hasPermission(module, permissionType, decode.role)) {
                 console.log('database data', result.password, result.email, decode.email, decode.password);
                 return next({
                     error: 'Unauthorized User role',

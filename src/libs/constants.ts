@@ -1,5 +1,5 @@
 const permissions = {
-    'getUsers': {
+    'getUser': {
         all: ['head-trainer'],
         read: ['trainee', 'trainer'],
         write: ['trainer'],
