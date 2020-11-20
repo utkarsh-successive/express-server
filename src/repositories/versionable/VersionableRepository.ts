@@ -30,11 +30,6 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
         return this.model.find(finalQuery, projection, options);
     }
 
-    // protected find(query, projection, options): DocumentQuery<D[], D> {
-    //     const finalQuery = { deletedAt: undefined, ...query };
-    //     return this.model.find(finalQuery, projection, options);
-    // }
-
     protected findOne(query): DocumentQuery<D, D> {
         const finalQuery = { deletedAt: undefined, ...query };
         return this.model.findOne(finalQuery);
