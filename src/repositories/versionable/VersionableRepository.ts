@@ -1,19 +1,12 @@
 import * as mongoose from 'mongoose';
 import { Document, Query, DocumentQuery } from 'mongoose';
-import * as CircularJSON from 'circular-json';
-
 export default class VersionableRepository<D extends mongoose.Document, M extends mongoose.Model<D>> {
     protected static generateObjectId() {
         return String(mongoose.Types.ObjectId());
     }
-
     private model: M;
-
-    private JSON;
-
     constructor(model) {
         this.model = model;
-        this.JSON = JSON;
     }
 
     protected create(data: any): Promise<D> {
@@ -37,11 +30,6 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
         return this.model.find(finalQuery, projection, options);
     }
 
-    protected find(query, projection, options): DocumentQuery<D[], D> {
-        const finalQuery = { deletedAt: undefined, ...query };
-        return this.model.find(finalQuery, projection, options);
-    }
-
     protected findOne(query): DocumentQuery<D, D> {
         const finalQuery = { deletedAt: undefined, ...query };
         return this.model.findOne(finalQuery);
@@ -56,12 +44,6 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
     }
 
     protected invalidate(id: string): DocumentQuery<D, D> {
-        // const query= this.JSON.stringify({ originalId: id, deletedAt: null });
-        // const data = this.JSON.stringify({deletedAt: new Date()});
-        // console.log("query and data", {query: query}, {data: data}, Date.now() );
-        // const temp = this.model.update( {query: query}, data);
-        // console.log("temp is", temp);
-        // return temp;
         const query: any = { originalId: id, deletedAt: { $exists: false } };
         const data: any = { deletedAt: Date.now() };
         return this.model.updateOne(query, data);

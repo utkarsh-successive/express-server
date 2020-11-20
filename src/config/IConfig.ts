@@ -3,5 +3,6 @@ interface Iconfig {
     NODE_ENV: string;
     Secret_Key: string;
     password: string;
+
     }
     export { Iconfig };
