@@ -4,6 +4,7 @@ import * as jwt from 'jsonwebtoken';
 import IRequest from '../../IRequest';
 import config from '../../config/configuration';
 import UserRepository from '../../repositories/User/UserRepository';
+import * as bcrypt from 'bcrypt';
 class userController {
     static instance: userController;
 
@@ -92,12 +93,14 @@ class userController {
 
             userModel.findOne({ 'email': email} ).lean().then((result) => {
                 if (result) {
-                    if ((email === result.email) && (password === result.password)) {
+                    console.log(result.password, password);
+                    console.log(bcrypt.compareSync(password, result.password));
+                    if (bcrypt.compareSync(password, result.password)) {
                         console.log('result is', result.password, result.name);
+                        console.log(result);
                         const token = jwt.sign({
-                            ...result
-                        }, config.Secret_Key);
-
+                            result
+                        }, config.Secret_Key,  { expiresIn: '15m' });
                         console.log(token);
                         res.send({
                             data: token,
