@@ -21,13 +21,7 @@ export default class UserRepository extends VersionableRepository<IUserModel, mo
 
     public create(data: any): Promise<IUserModel> {
         console.log('UserRepository:: create', data);
-        const id = UserRepository.generateObjectId();
-        const model = new userModel ({
-            _id: id,
-            originalId: id,
-            ...data,
-        });
-        return model.save();
+        return super.create(data);
     }
 
     public count() {

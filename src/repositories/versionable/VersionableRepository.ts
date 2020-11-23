@@ -1,5 +1,6 @@
 import * as mongoose from 'mongoose';
 import { Document, Query, DocumentQuery } from 'mongoose';
+import * as bcrypt from 'bcrypt';
 export default class VersionableRepository<D extends mongoose.Document, M extends mongoose.Model<D>> {
     protected static generateObjectId() {
         return String(mongoose.Types.ObjectId());
@@ -11,6 +12,9 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
 
     protected create(data: any): Promise<D> {
         console.log('UserRepository:: create', data);
+        const salt = bcrypt.genSaltSync(10);
+         const hash = bcrypt.hashSync(data.password, salt);
+        data.password = hash;
         const id = VersionableRepository.generateObjectId();
         const model = new this.model ({
             _id: id,
