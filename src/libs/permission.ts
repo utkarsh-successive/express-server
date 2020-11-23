@@ -5,7 +5,7 @@ export default  function hasPermissions(moduleName: string, permissionType: stri
         console.log(moduleName);
         console.log(role);
         console.log(permissionType);
-        if (!permissions[moduleName].all.includes(role) || permissions[moduleName][permissionType].includes(role)) {
+        if (permissions[moduleName].all.includes(role) || permissions[moduleName][permissionType].includes(role)) {
            console.log(`${role} has ${permissionType} permissions`);
                 return true;
             }
