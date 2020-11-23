@@ -25,7 +25,7 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
         return this.model.countDocuments(finalQuery);
     }
 
-    protected getAll(query, projection, options): DocumentQuery<D[], D> {
+    protected  getAll(query, projection, options): DocumentQuery<D[], D> {
         const finalQuery = { deletedAt: undefined, ...query };
         return this.model.find(finalQuery, projection, options);
     }

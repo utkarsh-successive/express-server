@@ -11,14 +11,14 @@ class TraineeController {
          return TraineeController.instance;
     }
     userRepository: UserRepository = new UserRepository();
-    get = ( req: Request, res: Response, next: NextFunction) => {
+    get = async( req: Request, res: Response, next: NextFunction) => {
         try {
             console.log('Inside get function of Trainee Controller');
-            this.userRepository.find({deletedAt: undefined}, {}, {})
+           await this.userRepository.find({deletedAt: undefined}, {}, {})
             .then ((resp) => {
                 console.log('Response of Repo is', resp);
                 res.send({
-                    message: 'user fetch sucessfully',
+                    message: 'trainee fetch sucessfully',
                     data: resp
                 });
             });
@@ -26,14 +26,14 @@ class TraineeController {
             console.log('Inside err');
         }
     }
-    update = (req: Request, res: Response, next: NextFunction ) => {
+    update = async(req: Request, res: Response, next: NextFunction ) => {
         try {
-            console.log('Inside put function of user Controller');
-            this.userRepository.update(req.body.dataToUpdate)
+            console.log('Inside put function of trainee Controller');
+            await this.userRepository.update(req.body.dataToUpdate)
             .then ((resp) => {
                 console.log('Response of Repo is', resp);
                 res.send({
-                    message: 'user updated sucessfully',
+                    message: 'trainee updated sucessfully',
                     data: resp
                 });
             })
@@ -45,14 +45,14 @@ class TraineeController {
         }
 
     }
-    create = ( req: Request, res: Response, next: NextFunction) => {
+    create = async( req: Request, res: Response, next: NextFunction) => {
         try {
-            console.log('Inside post function of user Controller');
-            this.userRepository.create(req.body)
+            console.log('Inside post function of trainee Controller');
+            await this.userRepository.create(req.body)
             .then ((resp) => {
                 console.log('Response of Repo is', resp);
                 res.send({
-                    message: 'user created sucessfully',
+                    message: 'trainee created sucessfully',
                     data: resp
                 });
             });
@@ -60,15 +60,15 @@ class TraineeController {
             console.log('Inside err', err);
         }
     }
-    delete = ( req: Request, res: Response, next: NextFunction) => {
+    delete = async( req: Request, res: Response, next: NextFunction) => {
         try {
-            console.log('Inside delete function of user Controller');
+            console.log('Inside delete function of trainee Controller');
             console.log('id', req.params.id, this);
-            this.userRepository.delete(req.params.id)
+            await this.userRepository.delete(req.params.id)
             .then ((resp) => {
                 console.log('Response of Repo is', resp);
                 res.send({
-                    message: 'user deleted sucessfully',
+                    message: 'trainee deleted sucessfully',
                     data: resp
                 });
             })

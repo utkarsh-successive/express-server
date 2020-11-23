@@ -16,10 +16,10 @@ class userController {
          return userController.instance;
     }
     userRepository: UserRepository = new UserRepository();
-    get = ( req: Request, res: Response, next: NextFunction) => {
+    get = async( req: Request, res: Response, next: NextFunction) => {
         try {
             console.log('Inside get function of Trainee Controller');
-            this.userRepository.find({deletedAt: undefined}, {}, {})
+            await this.userRepository.find({deletedAt: undefined}, {}, {})
             .then ((resp) => {
                 console.log('Response of Repo is', resp);
                 res.send({
@@ -31,10 +31,10 @@ class userController {
             console.log('Inside err');
         }
     }
-    update = (req: Request, res: Response, next: NextFunction ) => {
+    update = async(req: Request, res: Response, next: NextFunction ) => {
         try {
             console.log('Inside put function of user Controller');
-            this.userRepository.update(req.body.dataToUpdate)
+           await this.userRepository.update(req.body.dataToUpdate)
             .then ((resp) => {
                 console.log('Response of Repo is', resp);
                 res.send({
@@ -50,10 +50,10 @@ class userController {
         }
 
     }
-    create = ( req: Request, res: Response, next: NextFunction) => {
+    create = async( req: Request, res: Response, next: NextFunction) => {
         try {
             console.log('Inside post function of user Controller');
-            this.userRepository.create(req.body)
+            await this.userRepository.create(req.body)
             .then ((resp) => {
                 console.log('Response of Repo is', resp);
                 res.send({
@@ -65,11 +65,11 @@ class userController {
             console.log('Inside err', err);
         }
     }
-    delete = ( req: Request, res: Response, next: NextFunction) => {
+    delete = async( req: Request, res: Response, next: NextFunction) => {
         try {
             console.log('Inside delete function of user Controller');
             console.log('id', req.params.id, this);
-            this.userRepository.delete(req.params.id)
+             await this.userRepository.delete(req.params.id)
             .then ((resp) => {
                 console.log('Response of Repo is', resp);
                 res.send({
@@ -86,20 +86,16 @@ class userController {
             console.log('Inside err', err);
         }
     }
-    login = ( req: Request, res: Response, next: NextFunction) => {
+    login =  async( req: Request, res: Response, next: NextFunction) => {
         try {
             const { email, password } = req.body;
             console.log(email, password);
 
-            this.userRepository.findOne({email} ).lean().then((result) => {
+           userModel.findOne({ 'email': email} ).lean().then((result) => {
                 if (result) {
-
                     console.log(result.password, password);
                     console.log(bcrypt.compareSync(password, result.password));
                     if (bcrypt.compareSync(password, result.password)) {
-                    console.log(result);
-                    if ((email === result.email) && (password === result.password)) {
-
                         console.log('result is', result.password, result.name);
                         console.log(result);
                         const token = jwt.sign({
