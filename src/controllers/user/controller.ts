@@ -86,16 +86,20 @@ class userController {
             console.log('Inside err', err);
         }
     }
-    login( req: Request, res: Response, next: NextFunction) {
+    login = ( req: Request, res: Response, next: NextFunction) => {
         try {
             const { email, password } = req.body;
             console.log(email, password);
 
-            this.userRepository.findOne({ 'email': email} ).lean().then((result) => {
+            this.userRepository.findOne({email} ).lean().then((result) => {
                 if (result) {
+
                     console.log(result.password, password);
                     console.log(bcrypt.compareSync(password, result.password));
                     if (bcrypt.compareSync(password, result.password)) {
+                    console.log(result);
+                    if ((email === result.email) && (password === result.password)) {
+
                         console.log('result is', result.password, result.name);
                         console.log(result);
                         const token = jwt.sign({
