@@ -11,71 +11,68 @@ class TraineeController {
          return TraineeController.instance;
     }
     userRepository: UserRepository = new UserRepository();
-    get = ( req: Request, res: Response, next: NextFunction) => {
+    get = async( req: Request, res: Response, next: NextFunction) => {
         try {
             console.log('Inside get function of Trainee Controller');
-            this.userRepository.find({deletedAt: undefined}, {}, {})
-            .then ((resp) => {
-                console.log('Response of Repo is', resp);
-                res.send({
-                    message: 'user fetch sucessfully',
+          let resp = await this.userRepository.find({deletedAt: undefined}, {}, {});
+          console.log('response=', resp);
+          if (resp){
+                  console.log('Response of Repo is', resp);
+                    res.send({
+                    message: 'trainee fetch sucessfully',
                     data: resp
                 });
-            });
+            };
         } catch (err) {
             console.log('Inside err');
         }
     }
-    update = (req: Request, res: Response, next: NextFunction ) => {
+    update = async(req: Request, res: Response, next: NextFunction ) => {
         try {
-            console.log('Inside put function of user Controller');
-            this.userRepository.update(req.body.dataToUpdate)
-            .then ((resp) => {
+            console.log('Inside put function of trainee Controller');
+           let resp = await this.userRepository.update(req.body.dataToUpdate);
+             if(resp) {
                 console.log('Response of Repo is', resp);
                 res.send({
-                    message: 'user updated sucessfully',
+                    message: 'trainee updated sucessfully',
                     data: resp
                 });
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+            }
+            // else {
+            //     console.log(err);
+            // });
         } catch (err) {
             console.log('Inside err', err);
         }
 
     }
-    create = ( req: Request, res: Response, next: NextFunction) => {
+    create = async( req: Request, res: Response, next: NextFunction) => {
         try {
-            console.log('Inside post function of user Controller');
-            this.userRepository.create(req.body)
-            .then ((resp) => {
+            console.log('Inside post function of trainee Controller');
+         let resp =   await this.userRepository.create(req.body)
+            if (resp) {
                 console.log('Response of Repo is', resp);
                 res.send({
-                    message: 'user created sucessfully',
+                    message: 'trainee created sucessfully',
                     data: resp
                 });
-            });
+            }
         } catch (err) {
             console.log('Inside err', err);
         }
     }
-    delete = ( req: Request, res: Response, next: NextFunction) => {
+    delete = async( req: Request, res: Response, next: NextFunction) => {
         try {
-            console.log('Inside delete function of user Controller');
+            console.log('Inside delete function of trainee Controller');
             console.log('id', req.params.id, this);
-            this.userRepository.delete(req.params.id)
-            .then ((resp) => {
+          let resp=  await this.userRepository.delete(req.params.id);
+             if (resp)  {
                 console.log('Response of Repo is', resp);
                 res.send({
-                    message: 'user deleted sucessfully',
+                    message: 'trainee deleted sucessfully',
                     data: resp
                 });
-            })
-            .catch((err) => {
-                console.log('enter try catch');
-                console.log(err);
-            });
+            }
         } catch (err) {
             console.log('enter delete catch');
             console.log('Inside err', err);

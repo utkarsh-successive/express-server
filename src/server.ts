@@ -21,7 +21,7 @@ class Server {
         });
         app.use('/api', mainRouter);
         app.use(notFoundHandler);
-       // app.use(errorHandler);
+        app.use(errorHandler);
           return this;
     }
     public initBodyParser() {
