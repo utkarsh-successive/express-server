@@ -19,14 +19,14 @@ class userController {
     get = async( req: Request, res: Response, next: NextFunction) => {
         try {
             console.log('Inside get function of Trainee Controller');
-            await this.userRepository.find({deletedAt: undefined}, {}, {})
-            .then ((resp) => {
+          let resp =  await this.userRepository.find({deletedAt: undefined}, {}, {})
+              if(resp)  {
                 console.log('Response of Repo is', resp);
                 res.send({
                     message: 'user fetch sucessfully',
                     data: resp
                 });
-            });
+            };
         } catch (err) {
             console.log('Inside err');
         }
@@ -34,18 +34,15 @@ class userController {
     update = async(req: Request, res: Response, next: NextFunction ) => {
         try {
             console.log('Inside put function of user Controller');
-           await this.userRepository.update(req.body.dataToUpdate)
-            .then ((resp) => {
+          let resp  = await this.userRepository.update(req.body.dataToUpdate);
+            if (resp) {
                 console.log('Response of Repo is', resp);
                 res.send({
                     message: 'user updated sucessfully',
                     data: resp
                 });
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-        } catch (err) {
+            }
+            } catch (err) {
             console.log('Inside err', err);
         }
 
@@ -53,14 +50,15 @@ class userController {
     create = async( req: Request, res: Response, next: NextFunction) => {
         try {
             console.log('Inside post function of user Controller');
-            await this.userRepository.create(req.body)
-            .then ((resp) => {
+           let resp = await this.userRepository.create(req.body);
+             // tslint:disable-next-line: no-unused-expression
+             if (resp)  {
                 console.log('Response of Repo is', resp);
                 res.send({
                     message: 'user created sucessfully',
                     data: resp
                 });
-            });
+            }
         } catch (err) {
             console.log('Inside err', err);
         }
@@ -69,18 +67,14 @@ class userController {
         try {
             console.log('Inside delete function of user Controller');
             console.log('id', req.params.id, this);
-             await this.userRepository.delete(req.params.id)
-            .then ((resp) => {
+             let resp = await this.userRepository.delete(req.params.id);
+             if (resp)  {
                 console.log('Response of Repo is', resp);
                 res.send({
                     message: 'user deleted sucessfully',
                     data: resp
                 });
-            })
-            .catch((err) => {
-                console.log('enter try catch');
-                console.log(err);
-            });
+            }
         } catch (err) {
             console.log('enter delete catch');
             console.log('Inside err', err);
@@ -91,7 +85,7 @@ class userController {
             const { email, password } = req.body;
             console.log(email, password);
 
-           userModel.findOne({ 'email': email} ).lean().then((result) => {
+        const result =  await this.userRepository.findOne ({ 'email': email} );
                 if (result) {
                     console.log(result.password, password);
                     console.log(bcrypt.compareSync(password, result.password));
@@ -100,7 +94,7 @@ class userController {
                         console.log(result);
                         const token = jwt.sign({
                             result
-                        }, config.Secret_Key,  { expiresIn: '15m' });
+                        }, config.Secret_Key ,  { expiresIn: '15m' });
                         console.log(token);
                         res.send({
                             data: token,
@@ -122,7 +116,6 @@ class userController {
                         status: 404
                     });
                 }
-            });
         }
         catch (err) {
             res.send(err);
