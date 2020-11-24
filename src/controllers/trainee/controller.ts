@@ -13,16 +13,29 @@ class TraineeController {
     userRepository: UserRepository = new UserRepository();
     get = async( req: Request, res: Response, next: NextFunction) => {
         try {
-            console.log('Inside get function of Trainee Controller');
-          let resp = await this.userRepository.find({deletedAt: undefined}, {}, {});
-          console.log('response=', resp);
-          if (resp){
-                  console.log('Response of Repo is', resp);
-                    res.send({
-                    message: 'trainee fetch sucessfully',
-                    data: resp
+           let traineecount = 0;
+           let { skip , limit , sort , search } = req.query;
+           console.log(typeof req.query , req.query.limit);
+           let query ;
+           if (!(search === undefined || search.length === 0 )) {
+            const regex = /\S+@\S+\.\S+/;
+            query = (regex.test(String(search))) ? {email: search} : {name: search};
+            }
+           sort = (sort === undefined || sort.length === 0 ) ? 'createdAt' : sort;
+            console.log('Inside get function of Trainee Controller', skip, limit, req.query);
+            const resp = await this.userRepository.find({...query}, {}, { skip : Number(skip), limit : Number(limit), sort: { [String(sort)] : -1} });
+           console.log('asdfr', query,resp);
+            if (resp) {
+                for (const users of resp) {
+                    if (users.role === 'trainee')
+                        traineecount++;
+                }
+                console.log('Response of Repo is', resp);
+                res.send({
+              message: `Trainee fatch sucessfully and the total number of trainees are ${traineecount}`,
+               data: resp
                 });
-            };
+            }
         } catch (err) {
             console.log('Inside err');
         }
@@ -31,16 +44,13 @@ class TraineeController {
         try {
             console.log('Inside put function of trainee Controller');
            let resp = await this.userRepository.update(req.body.dataToUpdate);
-             if(resp) {
+             if (resp) {
                 console.log('Response of Repo is', resp);
                 res.send({
                     message: 'trainee updated sucessfully',
                     data: resp
                 });
             }
-            // else {
-            //     console.log(err);
-            // });
         } catch (err) {
             console.log('Inside err', err);
         }

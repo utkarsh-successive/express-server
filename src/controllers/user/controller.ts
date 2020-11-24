@@ -94,7 +94,7 @@ class userController {
                         console.log(result);
                         const token = jwt.sign({
                             result
-                        }, config.Secret_Key ,  { expiresIn: '15m' });
+                        }, config.Secret_Key, /* { expiresIn: '15m' }*/);
                         console.log(token);
                         res.send({
                             data: token,
