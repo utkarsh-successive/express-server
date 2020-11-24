@@ -14,11 +14,11 @@ class TraineeController {
     get = async( req: Request, res: Response, next: NextFunction) => {
         try {
            let traineecount = 0;
-           let {sort } = req.query;
+           let { skip , limit , sort } = req.query;
            const query = req.body;
            sort = (sort === undefined || sort.length === 0 ) ? 'createdAt' : sort;
             console.log('Inside get function of Trainee Controller');
-            await this.userRepository.find({deletedAt: undefined}, {}, {sort: { [String(sort)] : -1} })
+            await this.userRepository.find({deletedAt: undefined}, {}, { skip : Number(skip), limit : Number(limit), sort: { [String(sort)] : -1} })
             .then ((resp) => {
                 for (const users of resp) {
                     if (users.role === 'trainee')
