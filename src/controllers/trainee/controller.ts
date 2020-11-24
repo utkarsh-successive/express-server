@@ -14,14 +14,15 @@ class TraineeController {
     get = async( req: Request, res: Response, next: NextFunction) => {
         try {
             console.log('Inside get function of Trainee Controller');
-           await this.userRepository.find({deletedAt: undefined}, {}, {})
-            .then ((resp) => {
-                console.log('Response of Repo is', resp);
-                res.send({
+          let resp = await this.userRepository.find({deletedAt: undefined}, {}, {});
+          console.log('response=', resp);
+          if (resp){
+                  console.log('Response of Repo is', resp);
+                    res.send({
                     message: 'trainee fetch sucessfully',
                     data: resp
                 });
-            });
+            };
         } catch (err) {
             console.log('Inside err');
         }
@@ -29,17 +30,17 @@ class TraineeController {
     update = async(req: Request, res: Response, next: NextFunction ) => {
         try {
             console.log('Inside put function of trainee Controller');
-            await this.userRepository.update(req.body.dataToUpdate)
-            .then ((resp) => {
+           let resp = await this.userRepository.update(req.body.dataToUpdate);
+             if(resp) {
                 console.log('Response of Repo is', resp);
                 res.send({
                     message: 'trainee updated sucessfully',
                     data: resp
                 });
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+            }
+            // else {
+            //     console.log(err);
+            // });
         } catch (err) {
             console.log('Inside err', err);
         }
@@ -48,14 +49,14 @@ class TraineeController {
     create = async( req: Request, res: Response, next: NextFunction) => {
         try {
             console.log('Inside post function of trainee Controller');
-            await this.userRepository.create(req.body)
-            .then ((resp) => {
+         let resp =   await this.userRepository.create(req.body)
+            if (resp) {
                 console.log('Response of Repo is', resp);
                 res.send({
                     message: 'trainee created sucessfully',
                     data: resp
                 });
-            });
+            }
         } catch (err) {
             console.log('Inside err', err);
         }
@@ -64,18 +65,14 @@ class TraineeController {
         try {
             console.log('Inside delete function of trainee Controller');
             console.log('id', req.params.id, this);
-            await this.userRepository.delete(req.params.id)
-            .then ((resp) => {
+          let resp=  await this.userRepository.delete(req.params.id);
+             if (resp)  {
                 console.log('Response of Repo is', resp);
                 res.send({
                     message: 'trainee deleted sucessfully',
                     data: resp
                 });
-            })
-            .catch((err) => {
-                console.log('enter try catch');
-                console.log(err);
-            });
+            }
         } catch (err) {
             console.log('enter delete catch');
             console.log('Inside err', err);

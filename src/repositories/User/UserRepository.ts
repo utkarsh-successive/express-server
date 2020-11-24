@@ -4,6 +4,7 @@ import IUserModel from './IUserModel';
 import VersionableRepository from '../versionable/VersionableRepository';
 
 export default class UserRepository extends VersionableRepository<IUserModel, mongoose.Model<IUserModel>> {
+    static findOne: any;
     constructor() {
         super(userModel);
     }
@@ -16,18 +17,12 @@ export default class UserRepository extends VersionableRepository<IUserModel, mo
     }
 
     public findOne(query): mongoose.DocumentQuery<IUserModel, IUserModel, {}> {
-        return userModel.findOne(query).lean();
+        return super.findOne(query).lean();
     }
 
     public create(data: any): Promise<IUserModel> {
         console.log('UserRepository:: create', data);
-        const id = UserRepository.generateObjectId();
-        const model = new userModel ({
-            _id: id,
-            originalId: id,
-            ...data,
-        });
-        return model.save();
+        return super.create(data);
     }
 
     public count() {
