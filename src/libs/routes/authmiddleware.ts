@@ -2,7 +2,6 @@ import * as jwt from 'jsonwebtoken';
 import hasPermission from '../permission';
 import UserRepository from '../../repositories/User/UserRepository';
 import config from '../../config/configuration';
-import { userInfo } from 'os';
 export default (module, permissionType) => async (req, res, next) => {
     try {
         const UserRepo = new UserRepository();

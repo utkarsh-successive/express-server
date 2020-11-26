@@ -1,4 +1,3 @@
-import { count } from 'console';
 import { Request, Response, NextFunction } from 'express';
 import UserRepository from '../../repositories/User/UserRepository';
 class TraineeController {
@@ -23,7 +22,7 @@ class TraineeController {
               let  traineecount =  await this.userRepository.count({role:'trainee'} );
                 console.log("total traineecount in databasea are=",traineecount);
                 res.send({
-                message: 'Trainee fatch sucessfully and the total number of trainees are' ,
+                message: 'Trainee fatch sucessfully and the total number of trainees are',
                 total: traineecount,
                data: resp
          
@@ -43,9 +42,7 @@ class TraineeController {
                     data: resp
                 });
             }
-            // else {
-            //     console.log(err);
-            // });
+           
         } catch (err) {
             console.log('Inside err', err);
         }
