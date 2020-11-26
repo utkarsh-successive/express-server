@@ -23,7 +23,8 @@ class TraineeController {
               let  traineecount =  await this.userRepository.count({role:'trainee'} );
                 console.log("total traineecount in databasea are=",traineecount);
                 res.send({
-                message: `Trainee fatch sucessfully and the total number of trainees are ${traineecount}`,
+                message: 'Trainee fatch sucessfully and the total number of trainees are' ,
+                total: traineecount,
                data: resp
          
                 });

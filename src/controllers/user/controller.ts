@@ -93,8 +93,9 @@ class userController {
                         console.log('result is', result.password, result.name);
                         console.log("asdf",result);
                         const token = jwt.sign({
-                            result
-                        }, config.SECRET_KEY /*,  { expiresIn: '15m' }*/);
+                            id:result._id,
+                            email:result.email
+                        }, config.SECRET_KEY ,  { expiresIn: '15m' });
                        
                        console.log("token",token);
                         res.send({

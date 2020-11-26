@@ -2,15 +2,15 @@ import * as jwt from 'jsonwebtoken';
 import hasPermission from '../permission';
 import UserRepository from '../../repositories/User/UserRepository';
 import config from '../../config/configuration';
+import { userInfo } from 'os';
 export default (module, permissionType) => async (req, res, next) => {
     try {
         const UserRepo = new UserRepository();
         console.log('Module and permission is', module, permissionType);
         console.log('header', req.header('authorization'));
         const token = req.header('authorization');
-        const decode = jwt.verify(token, config.SECRET_KEY).result;
+        const decode = jwt.verify(token, config.SECRET_KEY);
         console.log('decoded user', decode);
-        console.log('email nad password', decode.email, decode.password, decode.role);
         let result = await UserRepo.findOne({ 'email': decode.email });
             console.log('result is ', result);
             if (!result) {
@@ -21,18 +21,17 @@ export default (module, permissionType) => async (req, res, next) => {
             }
             console.log('result is', result.name);
             console.log(result);
-            req.user = decode;
-            res.locals.user = decode;
+            delete result.password;
+            req.user = result;
+            res.locals.user = result;
             console.log('User in request', decode, module, permissionType);
-            if (!hasPermission(module, permissionType, decode.role)) {
-                console.log('database data', result.password, result.email, decode.email, decode.password);
+            if (!hasPermission(module, permissionType, result.role)) {
                 return next({
                     error: 'Unauthorized User role',
                     code: 403
                 });
             }
             return next();
-        // });
     }
     catch (err) {
         next({

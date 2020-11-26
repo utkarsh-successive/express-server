@@ -26,7 +26,6 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
 
     protected count(query): Query<number> {
         const finalQuery = { deletedAt: undefined, ...query };
-        console.log("utkarsh",query);
         return this.model.countDocuments(finalQuery);
     }
 
