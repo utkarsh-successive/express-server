@@ -2,6 +2,7 @@ import * as mongoose from 'mongoose';
 import { userModel } from './UserModel';
 import IUserModel from './IUserModel';
 import VersionableRepository from '../versionable/VersionableRepository';
+import * as bcrypt from 'bcrypt';
 
 export default class UserRepository extends VersionableRepository<IUserModel, mongoose.Model<IUserModel>> {
     static findOne: any;
@@ -22,6 +23,9 @@ export default class UserRepository extends VersionableRepository<IUserModel, mo
 
     public create(data: any): Promise<IUserModel> {
         console.log('UserRepository:: create', data);
+        const salt = bcrypt.genSaltSync(10);
+         const hash = bcrypt.hashSync(data.password, salt);
+        data.password = hash;
         return super.create(data);
     }
 
