@@ -25,8 +25,8 @@ export default class UserRepository extends VersionableRepository<IUserModel, mo
         return super.create(data);
     }
 
-    public count() {
-        return userModel.countDocuments();
+    public count(query ) {
+        return super.count(query);
     }
 
     public update(data: any): Promise<IUserModel> {

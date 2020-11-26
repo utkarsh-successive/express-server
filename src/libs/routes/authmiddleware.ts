@@ -8,7 +8,7 @@ export default (module, permissionType) => async (req, res, next) => {
         console.log('Module and permission is', module, permissionType);
         console.log('header', req.header('authorization'));
         const token = req.header('authorization');
-        const decode = jwt.verify(token, config.Secret_Key).result;
+        const decode = jwt.verify(token, config.SECRET_KEY).result;
         console.log('decoded user', decode);
         console.log('email nad password', decode.email, decode.password, decode.role);
         let result = await UserRepo.findOne({ 'email': decode.email });

@@ -91,11 +91,12 @@ class userController {
                     console.log(bcrypt.compareSync(password, result.password));
                     if (bcrypt.compareSync(password, result.password)) {
                         console.log('result is', result.password, result.name);
-                        console.log(result);
+                        console.log("asdf",result);
                         const token = jwt.sign({
                             result
-                        }, config.Secret_Key ,  { expiresIn: '15m' });
-                        console.log(token);
+                        }, config.SECRET_KEY /*,  { expiresIn: '15m' }*/);
+                       
+                       console.log("token",token);
                         res.send({
                             data: token,
                             message: 'Login Permited',
@@ -118,6 +119,7 @@ class userController {
                 }
         }
         catch (err) {
+            console.log("Error",err)
             res.send(err);
         }
     }

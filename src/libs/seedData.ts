@@ -3,12 +3,12 @@ import config from '../config/configuration';
 import * as bcrypt from  'bcrypt';
 
 const salt = bcrypt.genSaltSync(10);
-const hash = bcrypt.hashSync(config.password, salt);
-const hash1 = bcrypt.hashSync(config.password1, salt);
+const hash = bcrypt.hashSync(config.PASSWORD, salt);
+const hash1 = bcrypt.hashSync(config.PASSWORD1, salt);
 const userRepository: UserRepository = new UserRepository();
 
 export default () => {
-    userRepository.count()
+    userRepository.count({})
         .then(res => {
             if (res === 0) {
                 console.log('Data sending in progress');

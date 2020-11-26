@@ -1,3 +1,4 @@
+import { count } from 'console';
 import { Request, Response, NextFunction } from 'express';
 import UserRepository from '../../repositories/User/UserRepository';
 class TraineeController {
@@ -13,24 +14,19 @@ class TraineeController {
     userRepository: UserRepository = new UserRepository();
     get = async( req: Request, res: Response, next: NextFunction) => {
         try {
-           let traineecount = 0;
            let { skip , limit , sort } = req.query;
            const query = req.body;
            sort = (sort === undefined || sort.length === 0 ) ? 'createdAt' : sort;
             console.log('Inside get function of Trainee Controller');
            const resp = await this.userRepository.find({deletedAt: undefined}, {}, { skip : Number(skip), limit : Number(limit), sort: { [String(sort)] : -1} });
-            if (resp) {
-                for (const users of resp) {
-                    if (users.role === 'trainee')
-                        traineecount++;
-                }
-                console.log('Response of Repo is', resp);
+             console.log('Response of Repo is', resp);
+              let  traineecount =  await this.userRepository.count({role:'trainee'} );
+                console.log("total traineecount in databasea are=",traineecount);
                 res.send({
-              message: `Trainee fatch sucessfully and the total number of trainees are ${traineecount}`,
+                message: `Trainee fatch sucessfully and the total number of trainees are ${traineecount}`,
                data: resp
          
                 });
-            };
         } catch (err) {
             console.log('Inside err');
         }
