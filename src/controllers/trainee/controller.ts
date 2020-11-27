@@ -13,16 +13,20 @@ class TraineeController {
     userRepository: UserRepository = new UserRepository();
     get = async( req: Request, res: Response, next: NextFunction) => {
         try {
+           let { skip , limit , sort } = req.query;
+           const query = req.body;
+           sort = (sort === undefined || sort.length === 0 ) ? 'createdAt' : sort;
             console.log('Inside get function of Trainee Controller');
-          let resp = await this.userRepository.find({deletedAt: undefined}, {}, {});
-          console.log('response=', resp);
-          if (resp){
-                  console.log('Response of Repo is', resp);
-                    res.send({
-                    message: 'trainee fetch sucessfully',
-                    data: resp
+           const resp = await this.userRepository.find({deletedAt: undefined}, {}, { skip : Number(skip), limit : Number(limit), sort: { [String(sort)] : -1} });
+             console.log('Response of Repo is', resp);
+              let  traineecount =  await this.userRepository.count({role:'trainee'} );
+                console.log("total traineecount in databasea are=",traineecount);
+                res.send({
+                message: 'Trainee fatch sucessfully and the total number of trainees are',
+                total: traineecount,
+               data: resp
+         
                 });
-            };
         } catch (err) {
             console.log('Inside err');
         }
@@ -38,9 +42,7 @@ class TraineeController {
                     data: resp
                 });
             }
-            // else {
-            //     console.log(err);
-            // });
+           
         } catch (err) {
             console.log('Inside err', err);
         }
