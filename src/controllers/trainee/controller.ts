@@ -34,6 +34,7 @@ class TraineeController {
                       records: resp
                 }         
                 });
+
         } catch (err) {
             console.log('Inside err');
         }
@@ -42,7 +43,7 @@ class TraineeController {
         try {
             console.log('Inside put function of trainee Controller');
            let resp = await this.userRepository.update(req.body.dataToUpdate);
-             if(resp) {
+             if (resp) {
                 console.log('Response of Repo is', resp);
                 res.send({
                     status:"ok",
@@ -50,7 +51,6 @@ class TraineeController {
                     data: resp
                 });
             }
-           
         } catch (err) {
             console.log('Inside err', err);
         }

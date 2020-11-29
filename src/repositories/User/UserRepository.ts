@@ -14,8 +14,8 @@ export default class UserRepository extends VersionableRepository<IUserModel, mo
     }
 
     public find(query, projection ?: any, options ?: any): any {
-       // return userModel.find(query, projection, options);
         return super.getAll(query, projection, options);
+
 
     }
 

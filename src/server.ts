@@ -52,7 +52,7 @@ class Server {
           return this;
     }
     public initBodyParser() {
-        this.app.use(express.json());
+        this.app.use(bodyParser.json());
     }
     run() {
         const { PORT, NODE_ENV , MONGO_URL } = this.config;
