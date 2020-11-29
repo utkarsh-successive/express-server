@@ -221,7 +221,7 @@ traineeRouter.route('/')
  *     parameters:
  *       - name: id
  *         description: OriginalID of user to be deleted.
- *         in: query
+ *         in: params
  *         required: true
  *         type: string
  *         example: 5e4e6e93c095d84d34045a30
