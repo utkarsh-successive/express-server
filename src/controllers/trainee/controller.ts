@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, query } from 'express';
 import UserRepository from '../../repositories/User/UserRepository';
 class TraineeController {
     static instance: TraineeController;
@@ -13,19 +13,26 @@ class TraineeController {
     userRepository: UserRepository = new UserRepository();
     get = async( req: Request, res: Response, next: NextFunction) => {
         try {
-           let { skip , limit , sort } = req.query;
-           const query = req.body;
+           let { skip , limit , sort ,search} = req.query;
+          let query ;
+           console.log("tomer",query);
+           if (!(search === undefined || search.length === 0 )) {
+            const regex = /\S+@\S+\.\S+/;
+           query = (regex.test(String(search))) ? {email: search} : {name: search};
+            }
            sort = (sort === undefined || sort.length === 0 ) ? 'createdAt' : sort;
             console.log('Inside get function of Trainee Controller');
-           const resp = await this.userRepository.find({deletedAt: undefined}, {}, { skip : Number(skip), limit : Number(limit), sort: { [String(sort)] : -1} });
+           const resp = await this.userRepository.find({...query}, {}, { skip : Number(skip), limit : Number(limit), sort: { [String(sort)] : -1} });
              console.log('Response of Repo is', resp);
               let  traineecount =  await this.userRepository.count({role:'trainee'} );
                 console.log("total traineecount in databasea are=",traineecount);
                 res.send({
-                message: 'Trainee fatch sucessfully and the total number of trainees are',
-                total: traineecount,
-               data: resp
-         
+                status:"ok",
+                message: 'Successfully fetched trainee ',
+                data:{
+                      count: traineecount,
+                      records: resp
+                }         
                 });
         } catch (err) {
             console.log('Inside err');
@@ -38,6 +45,7 @@ class TraineeController {
              if(resp) {
                 console.log('Response of Repo is', resp);
                 res.send({
+                    status:"ok",
                     message: 'trainee updated sucessfully',
                     data: resp
                 });
@@ -55,6 +63,7 @@ class TraineeController {
             if (resp) {
                 console.log('Response of Repo is', resp);
                 res.send({
+                    staus:"ok",
                     message: 'trainee created sucessfully',
                     data: resp
                 });
@@ -71,6 +80,7 @@ class TraineeController {
              if (resp)  {
                 console.log('Response of Repo is', resp);
                 res.send({
+                    status:"ok",
                     message: 'trainee deleted sucessfully',
                     data: resp
                 });
