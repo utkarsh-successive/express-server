@@ -40,7 +40,7 @@ const traineeRouter = Router();
  *              example: trainee
  *          originalId: string
  *              example: 5e4a36bc64824b1f80b666cd
- *          createdAt:
+ *          createdAt: string
  *              example: 2020-02-20T11:06:29.125Z
  *          v:
  *              example:444
@@ -103,7 +103,7 @@ traineeRouter.route('/')
  *                      example: 200 OK
  *                  message:
  *                      example: 'successfully fetched Trainee'
- *                  Count:
+ *                  Count: number
  *                      example: 5
  *                  data:
  *                      type: object
