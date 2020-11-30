@@ -27,7 +27,8 @@ const traineeRouter = Router();
  *      TraineeResponse:
  *        type: object
  *        properties:
- *          _id: string
+ *          _id: 
+ *            type:string
  *              example: 5e4a36bc64824b1f80b730cd
  *          email:
  *              type: string
@@ -38,12 +39,15 @@ const traineeRouter = Router();
  *          role:
  *              type: string
  *              example: trainee
- *          originalId: string
+ *          originalId:
+ *               type: string
  *              example: 5e4a36bc64824b1f80b666cd
- *          createdAt: string
+ *          createdAt: 
+ *               type:string
  *              example: 2020-02-20T11:06:29.125Z
  *          v:
- *              example:444
+ *            type:number
+ *               example:444
  *      Unauthorized:
  *        type: object
  *        properties:
