@@ -1,0 +1,30 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "install",
+			"problemMatcher": [],
+			"label": "npm: install",
+			"detail": "install dependencies from package"
+		},
+		{
+			"type": "npm",
+			"script": "extra",
+			"problemMatcher": [],
+			"label": "npm: extra",
+			"detail": "babel-node extra"
+		},
+		{
+			"type": "npm",
+			"script": "test",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [],
+			"label": "npm: test",
+			"detail": "echo \"Error: no test specified\" && exit 1"
+		}
+	]
+}
