@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction, query } from 'express';
 import UserRepository from '../../repositories/User/UserRepository';
+import * as bcrypt from 'bcrypt';
 class TraineeController {
     static instance: TraineeController;
 
@@ -37,6 +38,10 @@ class TraineeController {
 
         } catch (err) {
             console.log('Inside err');
+            next({
+                message: 'No record found',
+                code: 404,
+            })
         }
     }
     update = async(req: Request, res: Response, next: NextFunction ) => {
@@ -44,7 +49,14 @@ class TraineeController {
             console.log('Inside put function of trainee Controller');
            let resp = await this.userRepository.update(req.body.dataToUpdate);
              if (resp) {
-                console.log('Response of Repo is', resp);
+                 console.log("password",resp.password );
+                 if(resp.password !==undefined)
+                 {
+                    const salt = bcrypt.genSaltSync(10);
+                   const hash = bcrypt.hashSync(resp.password, salt);
+                     resp.password = hash;
+                 }
+                 console.log('Response of Repo is', resp);
                 res.send({
                     status:"ok",
                     message: 'trainee updated sucessfully',

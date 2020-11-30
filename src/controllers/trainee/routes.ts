@@ -27,7 +27,7 @@ const traineeRouter = Router();
  *      TraineeResponse:
  *        type: object
  *        properties:
- *          _id:
+ *          _id: string
  *              example: 5e4a36bc64824b1f80b730cd
  *          email:
  *              type: string
@@ -38,7 +38,7 @@ const traineeRouter = Router();
  *          role:
  *              type: string
  *              example: trainee
- *          originalId:
+ *          originalId: string
  *              example: 5e4a36bc64824b1f80b666cd
  *          createdAt:
  *              example: 2020-02-20T11:06:29.125Z
@@ -130,7 +130,7 @@ traineeRouter.route('/')
  *     parameters:
  *       - name: User
  *         description: Data of users.
- *         in: body
+ *         in: query
  *         required: true
  *         type: object
  *         schema:
@@ -175,13 +175,13 @@ traineeRouter.route('/')
  *     parameters:
  *       - name: User
  *         description: Data of users.
- *         in: body
+ *         in: query
  *         required: true
  *         type: object
  *         schema:
  *          oneOf:
  *          properties:
- *              dataToUpdate:                   
+ *              dataToUpdate: string                 
  *                  example: 5e4e6e93c095d84d34045a30
  *                  allOf:
  *                      - $ref: '#/definitions/TraineePost'
@@ -209,7 +209,7 @@ traineeRouter.route('/')
 /**
  * @swagger
  *
- * /api/trainee/{id}:
+ * /api/trainee/{id}
  *   delete:
  *     tags:
  *       - Trainee
@@ -221,7 +221,7 @@ traineeRouter.route('/')
  *     parameters:
  *       - name: id
  *         description: OriginalID of user to be deleted.
- *         in: query
+ *         in: path
  *         required: true
  *         type: string
  *         example: 5e4e6e93c095d84d34045a30
