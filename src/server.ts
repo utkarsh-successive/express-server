@@ -3,6 +3,8 @@ import * as bodyParser from 'body-parser';
 import { notFoundHandler, errorHandler } from './libs/routes';
 import mainRouter  from './router';
 import Databse from './libs/database';
+import * as swaggerUi from 'swagger-ui-express';
+import * as swaggerJsdoc from 'swagger-jsdoc';
 
 class Server {
     app;
@@ -19,13 +21,38 @@ class Server {
         app.get('/health-check', ( req, res, next) => {
               res.send('I am Ok');
         });
+        const options =  {
+            swaggerDefinition: {
+                info: {
+                    title: 'Swagger javaScript-API',
+                    version: '1.0.0',
+                },
+                securityDefinitions: {
+                    Bearer: {
+                    type: 'apiKey',
+                    name: 'Authorization',
+                    in: 'headers',
+                }
+            }
+        },
+            asePath: '/api',
+            swagger: '4.1.5',
+            apis: ['./src/controllers/**/routes.ts'],
+        };
+          const specs = swaggerJsdoc(options);
+          console.log("JSDocs", specs);
+          this.app.use(
+            '/api-docs',
+            swaggerUi.serve,
+            swaggerUi.setup(specs, { explorer: true })
+          );
         app.use('/api', mainRouter);
         app.use(notFoundHandler);
         app.use(errorHandler);
           return this;
     }
     public initBodyParser() {
-        this.app.use(express.json());
+        this.app.use(bodyParser.json());
     }
     run() {
         const { PORT, NODE_ENV , MONGO_URL } = this.config;

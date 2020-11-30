@@ -5,6 +5,7 @@ import IRequest from '../../IRequest';
 import config from '../../config/configuration';
 import UserRepository from '../../repositories/User/UserRepository';
 import * as bcrypt from 'bcrypt';
+import { ok } from 'assert';
 class userController {
     static instance: userController;
 
@@ -98,10 +99,12 @@ class userController {
                         }, config.SECRET_KEY ,  { expiresIn: '15m' });
                        
                        console.log("token",token);
+
                         res.send({
-                            data: token,
-                            message: 'Login Permited',
-                            status: 200
+                            status: "ok",
+                            message: "Authorization Token",
+                            data: token
+                            
                         });
                     }
                     else {
@@ -129,7 +132,9 @@ class userController {
         console.log('user' , req.user);
         const user = req.user;
         res.json({
-            user
+            status: "ok",
+            message: "Me",
+            data:user
         });
     }
 }
