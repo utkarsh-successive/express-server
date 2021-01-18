@@ -123,4 +123,5 @@ userRouter.route('/login')
 
 userRouter.route('/me')
     .get(authmiddleware('getUser', 'read'), userControler.me);
+    
 export default userRouter;

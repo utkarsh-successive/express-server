@@ -5,6 +5,7 @@ import mainRouter  from './router';
 import Databse from './libs/database';
 import * as swaggerUi from 'swagger-ui-express';
 import * as swaggerJsdoc from 'swagger-jsdoc';
+import * as cors from 'cors';
 
 class Server {
     app;
@@ -18,6 +19,7 @@ class Server {
     }
     public setupRoutes() {
          const { app } = this;
+         app.use(cors());
         app.get('/health-check', ( req, res, next) => {
               res.send('I am Ok');
         });

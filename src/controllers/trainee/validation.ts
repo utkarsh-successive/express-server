@@ -26,7 +26,7 @@ const config = {
               errorMessage: 'email is required',
           },
           role: {
-               required: true,
+               required: false,
                 string: true,
                  in: ['body'],
                   errorMessage: 'role is required',
@@ -63,7 +63,7 @@ const config = {
     },
     update: {
         id: {
-            required: true,
+            required: false,
             string: true,
             in: ['body']
         },

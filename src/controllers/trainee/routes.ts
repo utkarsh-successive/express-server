@@ -14,10 +14,10 @@ const traineeRouter = Router();
  *        properties:
  *          email:
  *              type: string
- *              example: test@successive.tech
+ *              example: sharma@successive.tech
  *          name:
  *              type: string
- *              example: tomer
+ *              example: sharma
  *          password:
  *              type: string
  *              example: 1234
@@ -27,27 +27,23 @@ const traineeRouter = Router();
  *      TraineeResponse:
  *        type: object
  *        properties:
- *          _id: 
- *            type:string
+ *          _id:
  *              example: 5e4a36bc64824b1f80b730cd
  *          email:
  *              type: string
- *              example: test@successive.tech
+ *              example: sharma@successive.tech
  *          name:
  *              type: string
- *              example: tomer
+ *              example: sharma
  *          role:
  *              type: string
  *              example: trainee
  *          originalId:
- *               type: string
  *              example: 5e4a36bc64824b1f80b666cd
- *          createdAt: 
- *               type:string
+ *          createdAt:
  *              example: 2020-02-20T11:06:29.125Z
  *          v:
- *            type:number
- *               example:444
+ *              example:444
  *      Unauthorized:
  *        type: object
  *        properties:
@@ -57,8 +53,6 @@ const traineeRouter = Router();
  *              example: Token not found
  *          status:
  *              example: 403
- *          timestamp:
- *               example: 2020-11-25T17:34:37.066Z
  *
  */
 
@@ -94,7 +88,7 @@ traineeRouter.route('/')
  *         required: false
  *         type: string
  *       - name: search
- *         description: Element to search
+ *         description: Name to search
  *         in: query
  *         required: false
  *         type: string
@@ -107,8 +101,10 @@ traineeRouter.route('/')
  *                      example: 200 OK
  *                  message:
  *                      example: 'successfully fetched Trainee'
- *                  Count: number
+ *                  TotalCount:
  *                      example: 5
+ *                  TraineeCount:
+ *                      example: 2
  *                  data:
  *                      type: object
  *                      allOf:
@@ -124,39 +120,42 @@ traineeRouter.route('/')
  *
  * /api/trainee:
  *   post:
- *     tags:
- *       - Trainee
- *     description: Returns the success reponse on creation
+ *     description: Create an user
  *     security:
  *       - Bearer: []
- *     produces:
+ *     tags:
+ *       - Trainee
+ *     consumes:
  *       - application/json
+ *     produces:
+ *        - application/json
  *     parameters:
- *       - name: User
- *         description: Data of users.
- *         in: query
+ *       - name: userData
+ *         description: Data Required for User
+ *         in: body
  *         required: true
  *         type: object
- *         schema:
- *             $ref: '#/definitions/TraineeCreate'
+ *         example: {
+ *                       "userData": {
+ *                          "name": "utkarsh",
+ *                          "role": "trainee",
+ *                          "email": "test123@succesive.tech",
+ *                          "password": "123"
+ *                       }
+ *                    }
  *     responses:
  *       200:
- *         description: User Created Successfully
+ *         description: User created
  *         schema:
- *              oneOf:
  *              properties:
  *                  status:
- *                      example: OK
+ *                      example: 200 OK
  *                  message:
- *                      example: Trainee Created Successfully
+ *                      example: 'successfully created User'
  *                  data:
  *                      type: object
  *                      allOf:
- *                          - $ref: '#/definitions/TraineeResponse'
- *                      properties:
- *                              name:
- *                                  type: string
- *                                  example: "utkarsh"
+ *                              - $ref: '#/definitions/TraineeResponse'
  *       403:
  *         description: unauthorised access
  *         schema:
@@ -169,83 +168,87 @@ traineeRouter.route('/')
  *
  * /api/trainee:
  *   put:
- *     tags:
- *       - Trainee
- *     description: Returns the success reponse on Updation
+ *     description: Update an user
  *     security:
  *       - Bearer: []
- *     produces:
+ *     tags:
+ *       - Trainee
+ *     consumes:
  *       - application/json
+ *     produces:
+ *        - application/json
  *     parameters:
- *       - name: User
- *         description: Data of users.
- *         in: query
+ *       - name: dataToUpdate
+ *         description: Data Required for User
+ *         in: body
  *         required: true
  *         type: object
- *         schema:
- *          oneOf:
- *          properties:
- *              dataToUpdate: string                 
- *                  example: 5e4e6e93c095d84d34045a30
- *                  allOf:
- *                      - $ref: '#/definitions/TraineePost'
+ *         example: {
+ *                       "originalId": "5fbe2dc2bf231e2dacb1c5c4",
+ *                       "dataToUpdate": {
+ *                                         "name": "utkarsh Updated",
+ *                                         "role": "trainee",
+ *                                         "email": "testutkarsh@succesive.tech"
+ *                                      }
+ *                    }
  *     responses:
  *       200:
- *         description: User Updated Successfully
+ *         description: User updated successfully
  *         schema:
- *              oneOf:
  *              properties:
  *                  status:
- *                      example: OK
+ *                      example: 200 OK
  *                  message:
- *                      example: successfully upddate
+ *                      example: 'successfully updated User'
  *                  data:
  *                      type: object
  *                      allOf:
- *                          - $ref: '#/definitions/TraineeResponse'
+ *                              - $ref: '#/definitions/TraineeResponse'
+ *       403:
+ *         description: unauthorised access
+ *         schema:
+ *              $ref: '#/definitions/Unauthorized'
+ */
+ .put(authmiddleware('getUser', 'read'), validationHandler ( config.update) ,  traineeControler.update)
+/**
+ * @swagger
+ *
+ * /api/trainee/{id} :
+ *  delete:
+ *     description: Delete an user
+ *     security:
+ *       - Bearer: []
+ *     tags:
+ *       - Trainee
+ *     consumes:
+ *       - application/json
+ *     produces:
+ *        - application/json
+ *     parameters:
+ *       - name: id
+ *         description: id of user
+ *         in: path
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: User deleted successfully
+ *         schema:
+ *              properties:
+ *                  status:
+ *                      example: 200 OK
+ *                  message:
+ *                      example: 'successfully deleted User'
+ *                  data:
+ *                      type: object
+ *                      allOf:
+ *                              - $ref: '#/definitions/TraineeResponse'
  *       403:
  *         description: unauthorised access
  *         schema:
  *              $ref: '#/definitions/Unauthorized'
  */
 
- .put(authmiddleware('getUser', 'read'), validationHandler ( config.update) ,  traineeControler.update)
-/**
- * @swagger
- *
- * /api/trainee/{id}
- *   delete:
- *     tags:
- *       - Trainee
- *     description: Returns the success reponse on deletion
- *     security:
- *       - Bearer: []
- *     produces:
- *       - application/json
- *     parameters:
- *       - name: id
- *         description: OriginalID of user to be deleted.
- *         in: path
- *         required: true
- *         type: string
- *         example: 5e4e6e93c095d84d34045a30
- *     responses:
- *       200:
- *         description: Data to be deleted
- *         schema:
- *              oneOf:
- *              properties:
- *                  status:
- *                      example: OK
- *                  message:
- *                      example: Trainee deleted successfully!
- *                  code:
- *                      example: 200
- *       403:
- *         description: unauthorised access
- *         schema:
- *              $ref: '#/definitions/Unauthorized'
- */
 
  traineeRouter.route('/:id').delete(authmiddleware('getUser', 'read'), validationHandler ( config.delete) , traineeControler.delete);
 export default traineeRouter;
