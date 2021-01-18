@@ -109,14 +109,14 @@ class userController {
                     }
                     else {
                         console.log('database data', result.password, result.email );
-                        res.send({
+                        next({
                             message: 'Password Doesnt Match',
                             status: 400
                         });
                     }
                 }
                 else {
-                    res.send({
+                    next({
                         message: 'Email is not Registered',
                         status: 404
                     });

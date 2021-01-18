@@ -46,7 +46,7 @@ class TraineeController {
     }
     update = async(req: Request, res: Response, next: NextFunction ) => {
         try {
-            console.log('Inside put function of trainee Controller');
+            console.log('Inside put function of trainee Controller',req.body.dataToUpdate);
            let resp = await this.userRepository.update(req.body.dataToUpdate);
              if (resp) {
                  console.log("password",resp.password );
