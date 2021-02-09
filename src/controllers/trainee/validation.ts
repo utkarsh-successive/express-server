@@ -26,7 +26,7 @@ const config = {
               errorMessage: 'email is required',
           },
           role: {
-               required: false,
+               required: true,
                 string: true,
                  in: ['body'],
                   errorMessage: 'role is required',
