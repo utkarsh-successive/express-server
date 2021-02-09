@@ -23,9 +23,9 @@ class TraineeController {
             }
            sort = (sort === undefined || sort.length === 0 ) ? 'createdAt' : sort;
             console.log('Inside get function of Trainee Controller');
-           const resp = await this.userRepository.find({...query}, {}, { skip : Number(skip), limit : Number(limit), sort: { [String(sort)] : -1} });
+           const resp = await this.userRepository.find({...query,role: "trainee"}, {}, { skip : Number(skip), limit : Number(limit), sort: { [String(sort)] : -1} });
              console.log('Response of Repo is', resp);
-              let  traineecount =  await this.userRepository.count({role:'trainee'} );
+              let  traineecount =  await this.userRepository.count({...query,role: "trainee"} )
                 console.log("total traineecount in databasea are=",traineecount);
                 res.send({
                 status:"ok",
@@ -46,7 +46,7 @@ class TraineeController {
     }
     update = async(req: Request, res: Response, next: NextFunction ) => {
         try {
-            console.log('Inside put function of trainee Controller');
+            console.log('Inside put function of trainee Controller',req.body.dataToUpdate);
            let resp = await this.userRepository.update(req.body.dataToUpdate);
              if (resp) {
                  console.log("password",resp.password );

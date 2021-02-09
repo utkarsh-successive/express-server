@@ -63,7 +63,7 @@ const config = {
     },
     update: {
         id: {
-            required: true,
+            required: false,
             string: true,
             in: ['body']
         },

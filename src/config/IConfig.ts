@@ -1,7 +1,7 @@
 interface Iconfig {
     PORT: number;
     NODE_ENV: string;
-    Secret_Key: string;
+    SECRET_KEY: string;
     password: string;
 
     }
