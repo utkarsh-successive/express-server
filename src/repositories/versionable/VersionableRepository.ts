@@ -7,10 +7,11 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
     private model: M;
     constructor(model) {
         this.model = model;
+       // console.log('model',model);
     }
 
     protected create(data: any): Promise<D> {
-        console.log('UserRepository:: create', data);
+        //console.log('UserRepository:: create', data);
         const id = VersionableRepository.generateObjectId();
         const model = new this.model ({
             _id: id,
@@ -26,8 +27,9 @@ export default class VersionableRepository<D extends mongoose.Document, M extend
     }
 
     protected  getAll(query, projection, options): DocumentQuery<D[], D> {
-        console.log(query);
+        
         const finalQuery = { deletedAt: undefined, ...query };
+        //console.log(finalQuery);
         return this.model.find(finalQuery, projection, options);
     }
 

@@ -1,5 +1,6 @@
-import { Request, Response, NextFunction, query } from 'express';
+import { Request, Response, NextFunction, query, response } from 'express';
 import UserRepository from '../../repositories/User/UserRepository';
+import CityRepository from '../../repositories/city/CityRepository';
 import * as bcrypt from 'bcrypt';
 class TraineeController {
     static instance: TraineeController;
@@ -12,6 +13,7 @@ class TraineeController {
          return TraineeController.instance;
     }
     userRepository: UserRepository = new UserRepository();
+    cityRepository: CityRepository = new CityRepository();
     get = async( req: Request, res: Response, next: NextFunction) => {
         try {
            let { skip , limit , sort ,search} = req.query;
@@ -23,8 +25,23 @@ class TraineeController {
             }
            sort = (sort === undefined || sort.length === 0 ) ? 'createdAt' : sort;
             console.log('Inside get function of Trainee Controller');
-           const resp = await this.userRepository.find({...query,role: "trainee"}, {}, { skip : Number(skip), limit : Number(limit), sort: { [String(sort)] : -1} });
-             console.log('Response of Repo is', resp);
+            const resp = await this.userRepository.find({...query,role: "trainee"}, {}, { skip : Number(skip), limit : Number(limit), sort: { [String(sort)] : -1} });
+           let trainees= await Promise.all(resp.map(async (trainee) => {
+           let response2={...trainee._doc};
+           //console.log('check response',response2);    
+                const resp1= await this.cityRepository.find({ name: trainee.city});
+                 //console.log('222222222222222222222',resp1);
+                // response2.cityDetails= {
+                //     code:resp1[0].code,
+                //     language:resp1[0].language
+                // }
+                response2.code = resp1[0].code
+                response2.language = resp1[0].language
+
+                console.log('1111111111111111',response2)
+                return response2; 
+            }))
+            console.log('Response of Repo is', trainees);
               let  traineecount =  await this.userRepository.count({...query,role: "trainee"} )
                 console.log("total traineecount in databasea are=",traineecount);
                 res.send({
@@ -32,7 +49,7 @@ class TraineeController {
                 message: 'Successfully fetched trainee ',
                 data:{
                       count: traineecount,
-                      records: resp
+                      records: trainees
                 }         
                 });
 

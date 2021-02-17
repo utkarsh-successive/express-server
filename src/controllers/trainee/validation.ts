@@ -36,7 +36,13 @@ const config = {
                 alphaNumeric: true,
                  in: ['body'],
                   errorMessage: 'password is required',
-               }
+               },
+               city: {
+                required: true,
+                 string: true,
+                  in: ['body'],
+                   errorMessage: 'city is required',
+                }
     },
     delete: {
               id: {
